@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="stylesheet" href="../static/css/form.css">
+    <link rel="stylesheet" href="../static/css/button.css">
+    <title>LearnBook</title>
+</head>
+<body>
+    <div class="form-base">
+        <h1 class="form-header">LearnBook</h1>
+        <form action="form.py" method="login" class="form">
+            
+            <div class="input-container">
+                <input type="text" id="email" name="email" placeholder="Email" class="entry" required>
+                <i class="fa-solid fa-user input-icon"></i>
+            </div>
+
+            <div class="input-container">
+                <input type="password" id="password" name="password" placeholder="Password" class="entry" required>
+                <i class="fa-solid fa-lock input-icon"></i>
+            </div>
+    
+            <button type="submit" class="btn-1">Login</button>
+
+            <p class="form-footer">Not registered? <a href="./signup.html" class="link">Register now!</a></p>
+            
+        </form>
+    </div>
+</body>
+</html>
