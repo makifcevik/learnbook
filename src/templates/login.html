@@ -2,20 +2,20 @@
 {% block title %}Login to LearnBook{% endblock %}
 
 {% block form_content %}
-        <form action="form.py" method="login" class="form">
+    <form action="form.py" method="login" class="form">
 
-            <div class="input-container">
-                <input type="text" id="email" name="email" placeholder="Email" class="entry" required>
-                <i class="fa-solid fa-user input-icon"></i>
-            </div>
+        <div class="input-container">
+            <input type="text" id="email" name="email" placeholder="Email" class="entry" required>
+            <i class="fa-solid fa-user input-icon"></i>
+        </div>
 
-            <div class="input-container">
-                <input type="password" id="password" name="password" placeholder="Password" class="entry" required>
-                <i class="fa-solid fa-lock input-icon"></i>
-            </div>
+        <div class="input-container">
+            <input type="password" id="password" name="password" placeholder="Password" class="entry" required>
+            <i class="fa-solid fa-lock input-icon"></i>
+        </div>
 
-            <button type="submit" class="btn-1">Login</button>
+        <button type="submit" class="btn-1">Login</button>
 
-            <p class="form-footer">Not registered? <a href="./sign-up" class="link">Register now!</a></p>
-        </form>
+        <p class="form-footer">Not registered? <a href="./sign-up" class="link">Register now!</a></p>
+    </form>
 {% endblock %}
