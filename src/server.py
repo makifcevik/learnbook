@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, redirect, url_for, request, session, flash
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'DF48JD459'
 
 
 @app.route("/")
@@ -8,9 +9,37 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["POST", "GET"])
 def login():
-    return render_template("login.html")
+    # login user
+    if request.method == "POST":
+        _user = request.form["email"]
+        session["user"] = _user
+        return redirect(url_for("user"))
+    else:
+        # already logged in user
+        if "user" in session:
+            return redirect(url_for("user"))
+
+        # not logged in user
+        return render_template("login.html")
+
+
+@app.route("/user")
+def user():
+    # generate the page for the user if exists
+    if "user" in session:
+        _user = session["user"]
+        return f"<h1>{_user}</h1>"
+    # user does not exist
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
 
 
 @app.route("/sign-up")
