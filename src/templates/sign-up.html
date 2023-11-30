@@ -2,7 +2,7 @@
 {% block title %}Sign Up to LearnBook{% endblock %}
 
 {% block form_content %}
-    <form action="form.py" method="login" class="form">
+    <form action="{{ url_for('sign_up') }}" method="post" class="form">
 
         <div class="input-container">
             <input type="text" id="name" name="name" placeholder="Name" class="entry" required>

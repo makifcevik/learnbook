@@ -1,7 +1,11 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
+from user import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'DF48JD459'
+
+# for test only
+user_admin = User(name="Admin", email="admin@", password="1234")
 
 
 @app.route("/")
@@ -14,8 +18,15 @@ def login():
     # login user
     if request.method == "POST":
         _user = request.form["email"]
-        session["user"] = _user
-        return redirect(url_for("user"))
+        _password = request.form["password"]
+
+        # check information
+        if check_login(_user, _password):
+            session["user"] = _user
+            return redirect(url_for("user"))
+        # if the information is invalid redirect to the same page (temporary, later there'll be an alert message)
+        else:
+            return redirect(url_for("login"))
     else:
         # already logged in user
         if "user" in session:
@@ -42,9 +53,25 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/sign-up")
-def sing_up():
-    return render_template("sign-up.html")
+@app.route("/sign-up", methods=["POST", "GET"])
+def sign_up():
+    if request.method == "POST":
+        _name = request.form["name"]
+        _email = request.form["email"]
+        _password = request.form["password"]
+
+        # checking if the user already exists
+        if check_new_user(_email):
+            new_user = User(_name, _email, _password)
+            new_user.save()
+            print(new_user)
+            session["user"] = _name
+            return redirect(url_for("user"))
+        # if it already exists redirect to the same page (temporary, later there'll be an alert message)
+        else:
+            return redirect(url_for("sign_up"))
+    else:
+        return render_template("sign-up.html")
 
 
 if __name__ == "__main__":
