@@ -4,8 +4,9 @@ from user import *
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'DF48JD459'
 
-# for test only
-user_admin = User(name="Admin", email="admin@", password="1234")
+# for test only (already exists in ./data/users.json)
+# user_admin = User(name="Admin", email="admin@", password="1234")
+# user_admin.save()
 
 
 @app.route("/")

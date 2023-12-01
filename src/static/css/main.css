@@ -2,3 +2,47 @@
     margin: 0px;
     font-family: 'Inter', sans-serif;
 }
+
+.nav {
+    position: fixed;
+    width: 100%;
+    background-color: #aaaa68;
+    padding: 10px;
+}
+
+.nav-logo {
+    display: inline-block;
+    padding: 10px;
+}
+
+.nav-list {
+    display: inline-block;
+    float: right;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.nav-list-item {
+    display: inline-block;
+    padding: 10px;
+    margin-right: 50px;
+}
+
+.nav-list-item a {
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    transition: ease .3s;
+}
+
+.nav-list-item a:hover {
+    color: white;
+}
+
+.nav-list-item a:active {
+    color: black;
+}
