@@ -42,7 +42,11 @@ def user():
     # generate the page for the user if exists
     if "user" in session:
         _user = session["user"]
-        return f"<h1>{_user}</h1>"
+        return f'''
+            <h1>{_user}</h1>
+            <a href="{url_for("logout")}">Logout</a>
+        '''
+
     # user does not exist
     else:
         return redirect(url_for("login"))
