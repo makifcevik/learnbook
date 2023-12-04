@@ -1,13 +1,17 @@
-from flask import Flask, render_template, redirect, url_for, request, session, flash
+from flask import Flask, render_template, redirect, url_for, request, session
+from flask_pymongo import PyMongo
 from user import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'DF48JD459'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/user' # Location of MongoDB database
+
+mongodb_client = PyMongo(app)
+db = mongodb_client.db
 
 # for test only (already exists in ./data/users.json)
 # user_admin = User(name="Admin", email="admin@", password="1234")
 # user_admin.save()
-
 
 @app.route("/")
 def home():
@@ -64,12 +68,12 @@ def sign_up():
         _name = request.form["name"]
         _email = request.form["email"]
         _password = request.form["password"]
+        _department = request.form["department"]
 
         # checking if the user already exists
         if check_new_user(_email):
-            new_user = User(_name, _email, _password)
+            new_user = User(_name, _email, _password, _department)
             new_user.save()
-            print(new_user)
             session["user"] = _name
             return redirect(url_for("user"))
         # if it already exists redirect to the same page (temporary, later there'll be an alert message)

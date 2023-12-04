@@ -2,7 +2,7 @@
 {% block title %}Sign Up to LearnBook{% endblock %}
 
 {% block form_content %}
-    <form action="{{ url_for('sign_up') }}" method="post" class="form">
+    <form action="{{ url_for('sign_up') }}" method="POST" class="form">
 
         <div class="input-container">
             <input type="text" id="name" name="name" placeholder="Name" class="entry" required>
@@ -10,7 +10,7 @@
         </div>
 
         <div class="input-container">
-            <input type="text" id="email" name="email" placeholder="Email" class="entry" required>
+            <input type="email" id="email" name="email" placeholder="Email" class="entry" required>
             <i class="fa-solid fa-user input-icon"></i>
         </div>
 
