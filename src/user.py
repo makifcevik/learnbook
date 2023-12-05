@@ -1,5 +1,5 @@
-import json
 from server import db
+
 
 class User:
 
@@ -14,7 +14,6 @@ class User:
             "password": self.password,
             "department": self.department
         }
-        
 
     # def save(self):
     #     try:
@@ -28,8 +27,8 @@ class User:
     #         json.dump(existing_data, file, indent=4)
 
     def save(self):
-        db.user_collection.insert_one(self.data) # Now if you open MongoDB you will find it listed there
-
+        # Now if you open MongoDB you will find it listed here:
+        db.user_collection.insert_one(self.data)
 
 
 # # returns True if login information is valid
@@ -44,14 +43,12 @@ class User:
 #     return False
 
 def check_login(email, password):
-    chk_user = db.user_collection.find_one({'email': email}) # This will return a dict if we found the user with the email else None
+    # This will return a dict if we found the user with the email else None
+    chk_user = db.user_collection.find_one({'email': email})
     if chk_user is not None:
         if chk_user['password'] == password:
             return True
     return False
-
-
-
 
 
 # # returns True if user does not exist
@@ -65,8 +62,10 @@ def check_login(email, password):
 #         pass
 #     return True
 
+
 def check_new_user(email):
-    chk_user = db.user_collection.find_one({'email': email}) # This will return a dict if we found the user with the email else None
+    # This will return a dict if we found the user with the email else None
+    chk_user = db.user_collection.find_one({'email': email})
     if chk_user is not None:
-        return False # Meaning the email does exist, therfore user can't use the email
+        return False  # Meaning the email does exist, therefore user can't use the email
     return True 

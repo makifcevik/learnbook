@@ -4,14 +4,11 @@ from user import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'DF48JD459'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/user' # Location of MongoDB database
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/user'  # Location of MongoDB database
 
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
 
-# for test only (already exists in ./data/users.json)
-# user_admin = User(name="Admin", email="admin@", password="1234")
-# user_admin.save()
 
 @app.route("/")
 def home():
