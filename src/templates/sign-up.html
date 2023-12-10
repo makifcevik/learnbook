@@ -2,7 +2,14 @@
 {% block title %}Sign Up to LearnBook{% endblock %}
 
 {% block form_content %}
-    <form action="{{ url_for('sign_up') }}" method="POST" class="form">
+    <style>
+        body {
+            background-image: url('../static/images/home.jpeg');
+            background-size: 105% auto;
+             }           
+    </style>
+    <h3>{{ message }}</h3>
+    <form method="POST" class="form">
 
         <div class="input-container">
             <input type="text" id="name" name="name" placeholder="Name" class="entry" required>
@@ -31,6 +38,5 @@
         <button type="submit" class="btn-1">Sign Up</button>
 
         <p class="form-footer">Already registered? <a href="./login" class="link">Login now!</a></p>
-
     </form>
 {% endblock %}
