@@ -1,4 +1,11 @@
 from server import db
+from werkzeug.security import check_password_hash, generate_password_hash
+
+"""
+werkzeug.security offers us a very good hashing algorithm.
+we will use the generate_password_hash() function to generate 
+a hash of the password before storing to database
+"""
 
 
 class User:
@@ -8,64 +15,49 @@ class User:
         self.email = email
         self.password = password
         self.department = department
-        self.data = {
-            "name": self.name,
-            "email": self.email,
-            "password": self.password,
-            "department": self.department
-        }
 
-    # def save(self):
-    #     try:
-    #         with open("./data/users.json", mode="r") as file:
-    #             existing_data = json.load(file)
-    #             existing_data.update({self.email: self.data})  # Update with a dictionary
-    #     except (FileNotFoundError, json.decoder.JSONDecodeError):
-    #         existing_data = {self.email: self.data}  # If the file doesn't exist yet
-
-    #     with open("./data/users.json", mode="w") as file:
-    #         json.dump(existing_data, file, indent=4)
-
-    def save(self):
-        # Now if you open MongoDB you will find it listed here:
-        db.user_collection.insert_one(self.data)
-
-
-# # returns True if login information is valid
-# def check_login(email, password):
-#     try:
-#         with open("./data/users.json", mode="r") as file:
-#             data = json.load(file)
-#             if email in data and password == data[email]["password"]:
-#                 return True
-#     except (FileNotFoundError, json.decoder.JSONDecodeError):
-#         pass
-#     return False
-
-def check_login(email, password):
-    # This will return a dict if we found the user with the email else None
-    chk_user = db.user_collection.find_one({'email': email})
-    if chk_user is not None:
-        if chk_user['password'] == password:
-            return True
-    return False
+    # The following has to be written for LoginManager() to work
+    def is_authenticated(self):
+        return True
+    
+    def is_active(self):
+        return True
+    
+    def is_anonymous(self):
+        return False
+    
+    def get_id(self):
+        return self.email
+    
+    def check_password(self, password_input):
+        """
+        This function is used during login to check the password input
+        from the user to the hashed password stored in database
+        """
+        return check_password_hash(self.password, password_input)
 
 
-# # returns True if user does not exist
-# def check_new_user(email):
-#     try:
-#         with open("./data/users.json", mode="r") as file:
-#             data = json.load(file)
-#             if email in data:
-#                 return False
-#     except (FileNotFoundError, json.decoder.JSONDecodeError):
-#         pass
-#     return True
+def save_user(user):
+    """
+    This function is used during signup, it will hash the password
+    then store user's email, name, password, and department in database
 
+    You may check the MongoDB database for results
+    """
+    password_hash = generate_password_hash(user.password)
+    db.user_collection.insert_one({
+        "_id": user.email,
+        "name": user.name,
+        "password": password_hash,
+        "department": user.department
+    }) 
 
-def check_new_user(email):
-    # This will return a dict if we found the user with the email else None
-    chk_user = db.user_collection.find_one({'email': email})
-    if chk_user is not None:
-        return False  # Meaning the email does exist, therefore user can't use the email
-    return True 
+def get_user(email):
+    """
+    This function retrieves user data from database 
+    by using their email
+    """
+    user = db.user_collection.find_one({'_id':email}) # This will return None if no data is returned
+    if user is not None:
+        return User(user['name'], user['_id'], user['password'], user['department'])
+    
