@@ -107,9 +107,6 @@ def sign_up():
     otherwise save information to database and redirect them to homepage
     """
 
-    if current_user.is_authenticated():
-        return redirect(url_for('user'))
-
     message = ''
     if request.method == "POST":
         _name = request.form["name"]
