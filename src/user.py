@@ -1,5 +1,6 @@
 from server import db
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_login import UserMixin
 
 """
 werkzeug.security offers us a very good hashing algorithm.
@@ -8,7 +9,7 @@ a hash of the password before storing to database
 """
 
 
-class User:
+class User(UserMixin): # UserMixin gives us default implementations of is_authenticated() and is_active() functions
 
     def __init__(self, name, email, password, department):
         self.name = name
@@ -16,18 +17,20 @@ class User:
         self.password = password
         self.department = department
 
-    # The following has to be written for LoginManager() to work
-    def is_authenticated(self):
-        return True
-    
-    def is_active(self):
-        return True
+    # # The following has to be written for LoginManager() to work
+    def get_id(self):
+        return self.email
     
     def is_anonymous(self):
         return False
     
-    def get_id(self):
-        return self.email
+    # def is_authenticated(self):
+    #     return True
+    
+    # def is_active(self):
+    #     return True
+    
+    
     
     def check_password(self, password_input):
         """

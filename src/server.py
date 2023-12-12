@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_pymongo import PyMongo
 from pymongo.errors import DuplicateKeyError
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from user import *
 
 # Flask app setup
@@ -18,10 +18,20 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
+
+@login_manager.user_loader
+def user_loader(email):
+    return get_user(email)
+
+@login_manager.request_loader
+def request_loader(request):
+    email = request.form.get('email')
+    return get_user(email)
+
+
 @app.route("/")
 def home():
-    return render_template("index.html")
-
+    return render_template('index.html')
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -38,7 +48,7 @@ def login():
         _user = request.form["email"]
         _password = request.form["password"]
 
-        user = get_user(_user)
+        user = get_user(_user) # User()
         # check information
         if user and user.check_password(_password): 
             # if the information is valid redirect to the homepage
@@ -75,6 +85,7 @@ def user():
 
 
 @app.route("/logout/")
+@login_required
 def logout():
     """
     This function logs out the user and takes them back to the 
@@ -96,6 +107,9 @@ def sign_up():
     otherwise save information to database and redirect them to homepage
     """
 
+    if current_user.is_authenticated():
+        return redirect(url_for('user'))
+
     message = ''
     if request.method == "POST":
         _name = request.form["name"]
@@ -107,6 +121,7 @@ def sign_up():
         try:
             new_user = User(_name, _email, _password, _department)
             save_user(new_user)
+            login_user(new_user)
             session["user"] = _email
             return redirect(url_for("user"))
         except DuplicateKeyError:
@@ -115,9 +130,43 @@ def sign_up():
     
     return render_template("sign-up.html", message=message)
     
-@login_manager.user_loader
-def user_loader(email):
-    return get_user(email)
+
+@app.route('/search', methods=['POST', 'GET'])
+@login_required
+def search():
+    """
+    This function returns the search page.
+    users can search for other users or communities to follow
+    """
+    results=''
+    if request.method == 'POST':
+        search_query =  request.form.get('search')
+        choice = request.form.get('user_or_community')
+
+        # find() method will return a Cursor instance which then we turn to a list
+        # We use regex to filter the search (^: starts with; "$options:i": makes search insensitive to capital letters)
+        if choice == 'community':
+            results = list(db.community_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}))
+            return render_template('search.html', results=results)
+        elif choice == 'user':
+            results = list(db.user_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}))
+            return render_template('search.html', results=results)
+        
+    return render_template('search.html', results = results)
+
+@app.route('/chat')
+@login_required
+def chat():
+    """
+    This function returns the chat page; A login
+    is required to access this page
+    """
+    return render_template('chat_page.html')
+
+@app.route('/profile_page')
+@login_required
+def profile_page():
+    return render_template('current_user_profile.html', current_user=current_user)
 
 # Start app
 if __name__ == "__main__":
