@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+</head>
+<body>
+    <h1>Search</h1>
+    <form method="POST">
+        
+        <label for="user">Users</label>
+        <input type="radio" id="user" name="user_or_community" value="user" checked>
+        <label for="community">Community</label>
+        <input type="radio" id="community" name="user_or_community" value="community">
+        <br><br>
+
+        <input type="text" id="search" name="search" placeholder="Search here">
+        <button type="submit">Search</button>
+    </form>
+    <br><br>
+
+    <div id="search_result">
+        {% for result in results %}
+        <a href="{{ result.link }}">{{ result.name }}</a>
+        <br><br>
+        {% endfor %}
+    </div>
+</body>
+</html>
