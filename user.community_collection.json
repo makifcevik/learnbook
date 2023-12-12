@@ -1,0 +1,83 @@
+[{
+  "_id": {
+    "$oid": "65771c271c91b876edd8b672"
+  },
+  "name": "Chess Club",
+  "admin": "chessclub@hotmail.com",
+  "followers": 0,
+  "description": "ITS THE CHESS CLUB WOW",
+  "link": "http://127.0.0.1:5000/community/chessclub"
+},
+{
+  "_id": {
+    "$oid": "65771cda1c91b876edd8b673"
+  },
+  "name": "Literature Club",
+  "admin": "literatureclub@hotmail.com",
+  "followers": 0,
+  "description": "ITS THE LITERATURE CLUB WOW"
+},
+{
+  "_id": {
+    "$oid": "65771db6573440ff5ad1b49e"
+  },
+  "name": "Robotics Club",
+  "email": "roboticsclub@hotmail.com",
+  "followers": 0,
+  "description": "ITS THE ROBOTICS CLUB WOW"
+},
+{
+  "_id": {
+    "$oid": "65772c3b573440ff5ad1b49f"
+  },
+  "name": "Chess Club",
+  "admin": "chessclub@hotmail.com",
+  "followers": 0,
+  "description": "ITS THE CHESS CLUB WOW",
+  "link": "http://127.0.0.1:5000/community/chessclub"
+},
+{
+  "_id": {
+    "$oid": "65773346573440ff5ad1b4a0"
+  },
+  "name": "CMPE Department",
+  "admin": "cmpe@bilgiedu.net",
+  "followers": 0,
+  "description": "ITS THE CMPE DEPARTMENT WOW"
+},
+{
+  "_id": {
+    "$oid": "65773346573440ff5ad1b4a2"
+  },
+  "name": "EEEN Department",
+  "admin": "eeen@bilgiedu.net",
+  "followers": 0,
+  "description": "ITS THE EEEN DEPARTMENT WOW"
+},
+{
+  "_id": {
+    "$oid": "65773346573440ff5ad1b4a3"
+  },
+  "name": "BIOE Department",
+  "admin": "bioe@bilgiedu.net",
+  "followers": 0,
+  "description": "ITS THE BIOE DEPARTMENT WOW"
+},
+{
+  "_id": {
+    "$oid": "65773346573440ff5ad1b4a4"
+  },
+  "name": "Machine Learning CLub",
+  "admin": "machinelearning@bilgiedu.net",
+  "followers": 0,
+  "description": "ITS THE MACHINE LEARNING CLUB WOW"
+},
+{
+  "_id": {
+    "$oid": "65773346573440ff5ad1b4a5"
+  },
+  "name": "Gaming and Networking Club",
+  "admin": "gnc@bilgiedu.net",
+  "followers": 0,
+  "description": "ITS THE GAMING AND NETWORKING CLUB WOW"
+}]
