@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_pymongo import PyMongo
 from pymongo.errors import DuplicateKeyError
-from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+from flask_login import LoginManager, login_user, logout_user
 from user import *
 
 # Flask app setup
@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '72de10f502ec243d7ab803524a1f0385'
 
 # MongoDB database setup
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/user' # Location of MongoDB database
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/user'  # Location of MongoDB database
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
 
@@ -23,15 +23,17 @@ login_manager.init_app(app)
 def user_loader(email):
     return get_user(email)
 
+
 @login_manager.request_loader
-def request_loader(request):
-    email = request.form.get('email')
+def request_loader(req):
+    email = req.form.get('email')
     return get_user(email)
 
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template("index.html")
+
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -43,16 +45,16 @@ def login():
     it would display a login error
     """
 
-    message = '' # Error message
+    message = ''  # Error message
     if request.method == "POST":
         _user = request.form["email"]
         _password = request.form["password"]
 
-        user = get_user(_user) # User()
+        usr = get_user(_user)
         # check information
-        if user and user.check_password(_password): 
+        if usr and usr.check_password(_password):
             # if the information is valid redirect to the homepage
-            login_user(user)
+            login_user(usr)
             session["user"] = _user
             return redirect(url_for("user"))
         else:
@@ -60,12 +62,13 @@ def login():
             message = 'Failed to login'
             return render_template('login.html', message=message)
         
-    else: # For the case of a "GET" request
+    else:  # For the case of a "GET" request
         # already logged in user
         if "user" in session:
             return redirect(url_for("user"))
         else:
             return render_template("login.html", message=message)
+
 
 @app.route("/user")
 def user():
@@ -85,7 +88,7 @@ def user():
 
 
 @app.route("/logout/")
-@login_required
+# @login_required
 def logout():
     """
     This function logs out the user and takes them back to the 
@@ -126,44 +129,12 @@ def sign_up():
         # if it already exists redirect to the same page (temporary, later there'll be an alert message)
     
     return render_template("sign-up.html", message=message)
-    
 
-@app.route('/search', methods=['POST', 'GET'])
-@login_required
-def search():
-    """
-    This function returns the search page.
-    users can search for other users or communities to follow
-    """
-    results=''
-    if request.method == 'POST':
-        search_query =  request.form.get('search')
-        choice = request.form.get('user_or_community')
 
-        # find() method will return a Cursor instance which then we turn to a list
-        # We use regex to filter the search (^: starts with; "$options:i": makes search insensitive to capital letters)
-        if choice == 'community':
-            results = list(db.community_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}))
-            return render_template('search.html', results=results)
-        elif choice == 'user':
-            results = list(db.user_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}))
-            return render_template('search.html', results=results)
-        
-    return render_template('search.html', results = results)
+@login_manager.user_loader
+def user_loader(email):
+    return get_user(email)
 
-@app.route('/chat')
-@login_required
-def chat():
-    """
-    This function returns the chat page; A login
-    is required to access this page
-    """
-    return render_template('chat_page.html')
-
-@app.route('/profile_page')
-@login_required
-def profile_page():
-    return render_template('current_user_profile.html', current_user=current_user)
 
 # Start app
 if __name__ == "__main__":

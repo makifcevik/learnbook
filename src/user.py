@@ -9,7 +9,7 @@ a hash of the password before storing to database
 """
 
 
-class User(UserMixin): # UserMixin gives us default implementations of is_authenticated() and is_active() functions
+class User(UserMixin):  # UserMixin gives us default implementations of is_authenticated() and is_active() functions
 
     def __init__(self, name, email, password, department):
         self.name = name
@@ -29,8 +29,6 @@ class User(UserMixin): # UserMixin gives us default implementations of is_authen
     
     # def is_active(self):
     #     return True
-    
-    
     
     def check_password(self, password_input):
         """
@@ -55,12 +53,13 @@ def save_user(user):
         "department": user.department
     }) 
 
+
 def get_user(email):
     """
     This function retrieves user data from database 
     by using their email
     """
-    user = db.user_collection.find_one({'_id':email}) # This will return None if no data is returned
+    user = db.user_collection.find_one({'_id': email})  # This will return None if no data is returned
     if user is not None:
         return User(user['name'], user['_id'], user['password'], user['department'])
     
