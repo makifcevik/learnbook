@@ -125,3 +125,7 @@
     top: 11%;
     font-size: 30px;
 }
+
+.chat-container {
+    text-align: center;
+}

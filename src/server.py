@@ -137,7 +137,9 @@ def user_loader(email):
 
 @socketio.on("message")
 def handle_message(message):
-    print("Received message:", message)
+    # print("Received message:", message)
+    _name = session["user"]
+    message = f"{_name}: {message}"
     send(message, broadcast=True)
 
 
