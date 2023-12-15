@@ -2,11 +2,13 @@ from flask import Flask, render_template, redirect, url_for, request, session
 from flask_pymongo import PyMongo
 from pymongo.errors import DuplicateKeyError
 from flask_login import LoginManager, login_user, logout_user
+from flask_socketio import SocketIO, send
 from user import *
 
 # Flask app setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '72de10f502ec243d7ab803524a1f0385'
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 # MongoDB database setup
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/user'  # Location of MongoDB database
@@ -78,10 +80,7 @@ def user():
     """
     if "user" in session:
         _user = session["user"]
-        return f'''
-            <h1>{_user}</h1>
-            <a href="{url_for("logout")}">Logout</a>
-        '''
+        return render_template("chat_page.html")
     # user does not exist
     else:
         return redirect(url_for("login"))
@@ -134,6 +133,12 @@ def sign_up():
 @login_manager.user_loader
 def user_loader(email):
     return get_user(email)
+
+
+@socketio.on("message")
+def handle_message(message):
+    print("Received message:", message)
+    send(message, broadcast=True)
 
 
 # Start app
