@@ -137,12 +137,17 @@ def user_loader(email):
 
 @socketio.on("message")
 def handle_message(message):
-    # print("Received message:", message)
-    _name = session["user"]
-    message = f"{_name}: {message}"
-    send(message, broadcast=True)
+    _user = get_user(session["user"])
+    if _user is not None:
+        _name = _user.name
+        message = f"{_name}: {message}"
+        send(message, broadcast=True)
 
 
 # Start app
 if __name__ == "__main__":
-    app.run(debug=True)
+    # app.run(debug=True)
+    # Put your own ipv4 address or put "localhost"
+    # If you want to use the chat put the same thing on chat.js file too. Unless you want
+    # to use the chat it is not necessary
+    socketio.run(app, host="192.168.1.105", allow_unsafe_werkzeug=True)
