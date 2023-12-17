@@ -130,3 +130,11 @@
     height: 40px;
     width: 43vw;
 }
+
+.chat-container {
+    text-align: center;
+}
+
+.txtMessage {
+    color: blue;
+}
