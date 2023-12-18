@@ -149,8 +149,8 @@ def user_profile_page():
     A login is required to access this page.
     """
     email = request.args.get('email')
-    user = get_user(email)
-    return render_template('user_profile.html', user=user)
+    usr = get_user(email)
+    return render_template('user_profile.html', user=usr)
 
 
 @app.route('/community/')
@@ -195,9 +195,9 @@ def handle_message(message):
 
 
 @socketio.on('searchFunction')
-def searchFunction(search_query):
+def search_function(search_query):
     """
-    After recieving an input on the search bar from the current user,
+    After receiving an input on the search bar from the current user,
     this function will look through the database using such input and then it 
     will return a series of documents(result) to the current user's browser.
 
