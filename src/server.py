@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = '72de10f502ec243d7ab803524a1f0385'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # MongoDB database setup
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/user'  # Location of MongoDB database
+app.config['MONGO_URI'] = "mongodb://localhost:27017/user" # Location of MongoDB database
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
 
@@ -161,7 +161,7 @@ def community_profile_page():
     A login is required to access this page.
     """
     name = request.args.get('name')
-    community = db.community_collections.find_one({'name':name})
+    community = db.community_collection.find_one({'name':name})
     return render_template('community-profile.html', community=community)
 
 
@@ -207,7 +207,7 @@ def search_function(search_query):
     Note: Community Id is not returned because it caused some errors, '_id':False for now
     TODO: Make the search so it doesnt return the current user as the result
     """
-    results_community = list(db.community_collections.find({"name":{'$regex': '^'+search_query, '$options':'i'}}, {'_id':False}))
+    results_community = list(db.community_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}, {'_id':False}))
     results_people = list(db.user_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}))
 
     socketio.emit('printSearchResult', [results_people, results_community])
@@ -219,6 +219,7 @@ if __name__ == "__main__":
     # Put your own ipv4 address or put "localhost"
     # If you want to use the chat put the same thing on chat.js file too. Unless you want
     # to use the chat it is not necessary
-    socketio.run(app, host="192.168.1.105", allow_unsafe_werkzeug=True)
+    # 105
+    socketio.run(app, allow_unsafe_werkzeug=True)
     # socketio.run(app, debug=True)
 
