@@ -10,6 +10,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js" integrity="sha512-zoJXRvW2gC8Z0Xo3lBbao5+AS3g6YWr5ztKqaicua11xHo+AvE1b0lT9ODgrHTmNUxeCw0Ry4BGRYZfXu70weg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="../static/javascript/chat.js"></script>
 
     <title>Chats - LearnBook</title>
@@ -105,7 +106,7 @@
 
     <div class="container-fluid div-01 container-01">
         <div class="row">
-            <div class="col-sm-3" id="pane_height" style="background-color: #c9c698;">
+            <div class="col-sm-3 pane_height" style="background-color: #c9c698;">
 
                 <div class="row" style="height: 150px;">
                     <div class="profile-pic">
@@ -153,7 +154,7 @@
             </div>
 
 
-            <div class="col-sm-7" id="pane_height" style="background-color: #f9f2e4;">
+            <div class="col-sm-7 pane_height" style="background-color: #f9f2e4;">
                 <div id="messages">
 
                 </div>
@@ -163,7 +164,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-2" id="pane_height" style="background-color: #f0edcb;">
+            <div class="col-sm-2 pane_height" style="background-color: #f0edcb;">
 
             </div>
         </div>
@@ -172,7 +173,7 @@
     <script>
         var h = window.innerHeight;
         
-        document.getElementById("pane_height").style.height = h - 85;
+        $(".pane_height").style.height = h - 85;
     </script>
 </body>
 
