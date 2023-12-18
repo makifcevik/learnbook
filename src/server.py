@@ -193,6 +193,7 @@ def handle_message(message):
         message = f"{_name}: {message}"
         send(message, broadcast=True)
 
+
 @socketio.on('searchFunction')
 def searchFunction(search_query):
     """
@@ -210,6 +211,7 @@ def searchFunction(search_query):
     results_people = list(db.user_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}))
 
     socketio.emit('printSearchResult', [results_people, results_community])
+
 
 # Start app
 if __name__ == "__main__":
