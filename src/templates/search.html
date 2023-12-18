@@ -1,16 +1,19 @@
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/search.css">
+    <link rel="jquery" href="js/main.js">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js" integrity="sha512-zoJXRvW2gC8Z0Xo3lBbao5+AS3g6YWr5ztKqaicua11xHo+AvE1b0lT9ODgrHTmNUxeCw0Ry4BGRYZfXu70weg==" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <title>Search</title>
 </head>
 
@@ -23,13 +26,13 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="a-01" href="{{ url_for('user') }}">LearnBook</a>
+                        <a class="a-01" href="#">LearnBook</a>
                     </li>
                </ul>
 
                <ul class="navbar-nav nav-02">
                 <li class="nav-item items-02">
-                    <a class="a-02" href="{{ url_for('user') }}">
+                    <a class="a-02" href="#">
                         <div class="row text-center">
                             <span class="material-symbols-outlined" id="navbar-icons">
                                 home
@@ -41,7 +44,7 @@
                     </a>
                 </li>
                 <li class="nav-item items-02">
-                    <a id="current" href="{{ url_for('chat') }}">
+                    <a id="current" href="#">
                         <div class="row text-center">
                             <span class="material-symbols-outlined" id="navbar-icons">
                                 chat
@@ -53,7 +56,7 @@
                     </a>
                 </li>
                 <li class="nav-item items-02">
-                    <a class="a-02" href="{{ url_for('search') }}">
+                    <a class="a-02" href="#">
                         <div class="row text-center">
                             <span class="material-symbols-outlined" id="navbar-icons">
                                 groups
@@ -65,7 +68,7 @@
                     </a>
                 </li>
                 <li class="nav-item items-02">
-                    <a class="a-02" href="{{ url_for('search') }}">
+                    <a class="a-02" href="#">
                         <div class="row text-center">
                             <span class="material-symbols-outlined" id="navbar-icons">
                                 search
@@ -77,7 +80,7 @@
                     </a>
                 </li>
                 <li class="nav-item items-02">
-                    <a class="a-02" href="{{ url_for('profile_page') }}">
+                    <a class="a-02" href="#">
                         <div class="row text-center">
                             <span class="material-symbols-outlined" id="navbar-icons">
                                 manage_accounts
@@ -89,104 +92,42 @@
                     </a>
                 </li>
                </ul>
+
             </div>
         </div>
     </nav>
+    
+    <input type="text" class="search-bar" placeholder="Search here..." oninput="searchFunction()">
 
-    <input type="text" id="search-bar" class="search-bar" placeholder="Search here..." name="search">
+ 
 
     <div class="tabs">
         <input type="radio" class="tabs__radio" name="search-results" id="people-tab" checked>
         <label for="people-tab" class="tabs__label">People</label>
-        <div id="result-people" class="tabs__content">
-            <!--User results goes in here-->
+        <div class="tabs__content">
+            Search result for People 
         </div>
-
         <input type="radio" class="tabs__radio" name="search-results" id="community-tab">
         <label for="community-tab" class="tabs__label">Community</label>
-        <div id="result-community" class="tabs__content">
-            <!--Commumity results goes in here-->
+        <div class="tabs__content">
+          Search result for Community 
         </div>
-    </div>    
+    </div>
+
 
 
     <div class="left-box">
         <div class="group-pic-background"> </div>
-        <button type="submit" class="form-community-button">Form a Community</button>
+        <button class="form-community-button">Form a Community</button>
         <div class="upload-bar">
             <form action="/upload" method="post" enctype="multipart/form-data">
-                <label for="image">Choose an image:</label>
-                <input type="file" id="image" name="image" accept="image/*">
-                <input type="submit" value="Upload">
-                </form>
+            <label for="image">Choose an image:</label>
+            <input type="file" id="image" name="image" accept="image/*">
+            <input type="submit" value="Upload">
+            </form>
         </div>
     </div>
 </div>
 
-<script>
-        // Connect to server
-        let socket = io.connect('http://127.0.0.1:5000');
-
-        socket.on('connect', () => {
-            socket.send('Connect successfull');
-        });
-
-        
-        const searchBar = document.getElementById('search-bar');
-
-        searchBar.oninput = (e) => {
-            e.preventDefault();
-            // Check if the input is not an empty string, because if so we wont send anything to server
-            let search_not_empty = searchBar.value.trim();
-
-            if(search_not_empty){ // Not empty case
-                socket.emit('searchFunction', searchBar.value) // Send the server our search query
-            } else { // Empty case
-                document.getElementById('result-people').innerHTML = '';
-                document.getElementById('result-community').innerHTML = '';
-            }
-        }
-
-        /**
-         * After retrieving the results, its time to show them to the current user.
-         * What happens is that we run a for loop since the data retrieved from server
-         * is a seriers of documents.
-         * 
-         * After every input, we delete every inner HTML in each tab to avoid
-         * repeating the same user/community to the current user.
-         * */
-        socket.on('printSearchResult', (data) => {
-            
-            const peopleTab = document.getElementById('result-people');
-            const communityTab = document.getElementById('result-community');
-
-            // Delete all the current result to not repeat the same results from server again
-            peopleTab.innerHTML = '';
-            communityTab.innerHTML = '';
-
-            const newUserResults = document.createElement('a');
-            const newCommunityResults = document.createElement('a');
-            const br = document.createElement('br');
-
-            // Print results under the Users tab
-            for(var i = 0; i<data[0].length; i++){
-                newUserResults.innerText = data[0][i].name;
-                var link = "{{ url_for('user_profile_page', email='oldID') }}".replace('oldID', data[0][i]['_id']);
-                newUserResults.setAttribute('href', link);
-                peopleTab.appendChild(newUserResults);
-                peopleTab.appendChild(br);
-            }
-
-            // Print results under the Communities tab
-            for(var j = 0; j<data[1].length; j++){
-                newCommunityResults.innerText = data[1][j].name;
-                var link = "{{ url_for('community_profile_page', name='oldName') }}".replace('oldName', data[1][j].name)
-                newCommunityResults.setAttribute('href', link)
-                communityTab.appendChild(newCommunityResults);
-                communityTab.appendChild(br);
-            }
-        })
-</script>
 </body>
-
 </html>

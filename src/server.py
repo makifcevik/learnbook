@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = '72de10f502ec243d7ab803524a1f0385'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # MongoDB database setup
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/user' # Location of MongoDB database
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/user'  # Location of MongoDB database
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
 
@@ -25,6 +25,7 @@ login_manager.init_app(app)
 def user_loader(email):
     return get_user(email)
 
+
 @login_manager.request_loader
 def request_loader(req):
     email = req.form.get('email')
@@ -33,7 +34,8 @@ def request_loader(req):
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template("index.html")
+
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -45,16 +47,16 @@ def login():
     it would display a login error
     """
 
-    message = '' # Error message
+    message = ''  # Error message
     if request.method == "POST":
         _user = request.form["email"]
         _password = request.form["password"]
 
-        user = get_user(_user) # User()
+        usr = get_user(_user)
         # check information
-        if user and user.check_password(_password): 
+        if usr and usr.check_password(_password):
             # if the information is valid redirect to the homepage
-            login_user(user)
+            login_user(usr)
             session["user"] = _user
             return redirect(url_for("user"))
         else:
@@ -62,12 +64,13 @@ def login():
             message = 'Failed to login'
             return render_template('login.html', message=message)
         
-    else: # For the case of a "GET" request
+    else:  # For the case of a "GET" request
         # already logged in user
         if "user" in session:
             return redirect(url_for("user"))
         else:
             return render_template("login.html", message=message)
+
 
 @app.route("/user")
 def user():
@@ -77,10 +80,7 @@ def user():
     """
     if "user" in session:
         _user = session["user"]
-        return f'''
-            <h1>{_user}</h1>
-            <a href="{url_for("logout")}">Logout</a>
-        '''
+        return render_template("chat_page.html")
     # user does not exist
     else:
         return redirect(url_for("login"))
@@ -161,7 +161,7 @@ def community_profile_page():
     A login is required to access this page.
     """
     name = request.args.get('name')
-    community = db.community_collection.find_one({'name':name})
+    community = db.community_collections.find_one({'name':name})
     return render_template('community-profile.html', community=community)
 
 
@@ -206,7 +206,7 @@ def searchFunction(search_query):
     Note: Community Id is not returned because it caused some errors, '_id':False for now
     TODO: Make the search so it doesnt return the current user as the result
     """
-    results_community = list(db.community_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}, {'_id':False}))
+    results_community = list(db.community_collections.find({"name":{'$regex': '^'+search_query, '$options':'i'}}, {'_id':False}))
     results_people = list(db.user_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}))
 
     socketio.emit('printSearchResult', [results_people, results_community])
@@ -217,6 +217,6 @@ if __name__ == "__main__":
     # Put your own ipv4 address or put "localhost"
     # If you want to use the chat put the same thing on chat.js file too. Unless you want
     # to use the chat it is not necessary
-    # socketio.run(app, host="192.168.1.105", allow_unsafe_werkzeug=True)
-    socketio.run(app, debug=True)
+    socketio.run(app, host="192.168.1.105", allow_unsafe_werkzeug=True)
+    # socketio.run(app, debug=True)
 
