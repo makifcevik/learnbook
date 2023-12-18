@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_pymongo import PyMongo
 from pymongo.errors import DuplicateKeyError
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_socketio import SocketIO, send
 from user import *
 
@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = '72de10f502ec243d7ab803524a1f0385'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # MongoDB database setup
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/user'  # Location of MongoDB database
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/user' # Location of MongoDB database
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
 
@@ -25,17 +25,15 @@ login_manager.init_app(app)
 def user_loader(email):
     return get_user(email)
 
-
 @login_manager.request_loader
-def request_loader(req):
-    email = req.form.get('email')
+def request_loader(request):
+    email = request.form.get('email')
     return get_user(email)
 
 
 @app.route("/")
 def home():
-    return render_template("index.html")
-
+    return render_template('index.html')
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -47,16 +45,16 @@ def login():
     it would display a login error
     """
 
-    message = ''  # Error message
+    message = '' # Error message
     if request.method == "POST":
         _user = request.form["email"]
         _password = request.form["password"]
 
-        usr = get_user(_user)
+        user = get_user(_user) # User()
         # check information
-        if usr and usr.check_password(_password):
+        if user and user.check_password(_password): 
             # if the information is valid redirect to the homepage
-            login_user(usr)
+            login_user(user)
             session["user"] = _user
             return redirect(url_for("user"))
         else:
@@ -64,13 +62,12 @@ def login():
             message = 'Failed to login'
             return render_template('login.html', message=message)
         
-    else:  # For the case of a "GET" request
+    else: # For the case of a "GET" request
         # already logged in user
         if "user" in session:
             return redirect(url_for("user"))
         else:
             return render_template("login.html", message=message)
-
 
 @app.route("/user")
 def user():
@@ -80,14 +77,17 @@ def user():
     """
     if "user" in session:
         _user = session["user"]
-        return render_template("chat_page.html")
+        return f'''
+            <h1>{_user}</h1>
+            <a href="{url_for("logout")}">Logout</a>
+        '''
     # user does not exist
     else:
         return redirect(url_for("login"))
 
 
 @app.route("/logout/")
-# @login_required
+@login_required
 def logout():
     """
     This function logs out the user and takes them back to the 
@@ -130,9 +130,59 @@ def sign_up():
     return render_template("sign-up.html", message=message)
 
 
-@login_manager.user_loader
-def user_loader(email):
-    return get_user(email)
+@app.route('/search')
+@login_required
+def search():
+    """
+    This function returns the search page allowing the users to find
+    other users, or communities to follow;
+    A login is required to access this page.
+    """
+    return render_template('search.html')
+
+
+@app.route('/users/')
+@login_required
+def user_profile_page():
+    """
+    This function returns the profile page of users other than the current user;
+    A login is required to access this page.
+    """
+    email = request.args.get('email')
+    user = get_user(email)
+    return render_template('user_profile.html', user=user)
+
+
+@app.route('/community/')
+@login_required
+def community_profile_page():
+    """
+    This function returns the communities profile pages;
+    A login is required to access this page.
+    """
+    name = request.args.get('name')
+    community = db.community_collections.find_one({'name':name})
+    return render_template('community-profile.html', community=community)
+
+
+@app.route('/chat')
+@login_required
+def chat():
+    """
+    This function returns the chat page;
+    A login is required to access this page
+    """
+    return render_template('chat_page.html')
+
+
+@app.route('/profile_page')
+@login_required
+def profile_page():
+    """
+    This function returns the current user's profile page;
+    A login is required to access this page
+    """
+    return render_template('current_user_profile.html', current_user=current_user)
 
 
 @socketio.on("message")
@@ -143,6 +193,23 @@ def handle_message(message):
         message = f"{_name}: {message}"
         send(message, broadcast=True)
 
+@socketio.on('searchFunction')
+def searchFunction(search_query):
+    """
+    After recieving an input on the search bar from the current user,
+    this function will look through the database using such input and then it 
+    will return a series of documents(result) to the current user's browser.
+
+    This function will fire up the 'printSearchResult' event on the browser
+    located at 'search.html'.
+
+    Note: Community Id is not returned because it caused some errors, '_id':False for now
+    TODO: Make the search so it doesnt return the current user as the result
+    """
+    results_community = list(db.community_collections.find({"name":{'$regex': '^'+search_query, '$options':'i'}}, {'_id':False}))
+    results_people = list(db.user_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}))
+
+    socketio.emit('printSearchResult', [results_people, results_community])
 
 # Start app
 if __name__ == "__main__":
@@ -150,4 +217,6 @@ if __name__ == "__main__":
     # Put your own ipv4 address or put "localhost"
     # If you want to use the chat put the same thing on chat.js file too. Unless you want
     # to use the chat it is not necessary
-    socketio.run(app, host="192.168.1.105", allow_unsafe_werkzeug=True)
+    # socketio.run(app, host="192.168.1.105", allow_unsafe_werkzeug=True)
+    socketio.run(app, debug=True)
+
