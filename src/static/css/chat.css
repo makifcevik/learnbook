@@ -1,4 +1,7 @@
 /*All previous is for the NavBar*/ 
+body {
+    overflow: hidden;
+}
 
 .profile-pic {
     height: 100px;
