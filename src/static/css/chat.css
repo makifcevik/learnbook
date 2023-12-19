@@ -74,6 +74,11 @@ body {
     text-align: center;
 }
 
-.txtMessage {
+.txtMessageReceived {
     color: blue;
+}
+
+
+.txtMessageSent {
+    color: red;
 }

@@ -62,4 +62,15 @@ def get_user(email):
     user = db.user_collection.find_one({'_id': email})  # This will return None if no data is returned
     if user is not None:
         return User(user['name'], user['_id'], user['password'], user['department'])
+    else:
+        return None
+
+
+def get_username(email):
+    user = db.user_collection.find_one({'_id': email}, {'name': 1, '_id': 0})
+
+    if user is not None and 'name' in user:
+        return user['name']
+    else:
+        return None
     

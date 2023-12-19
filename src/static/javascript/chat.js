@@ -1,17 +1,32 @@
 $(document).ready(() => {
     let socket = io.connect("http://localhost:5000");
+    let username = "";
 
-    socket.on("connect", () => {
+    socket.on("connect", () =>
+    {
         //socket.send("Connection successful: 200");
+        console.log("connected");
     });
 
-    socket.on("message", (data) => {
-        $("#messages").append($("<p class='txtMessage'>").text(data));
+    socket.on("login", (data) =>
+    {
+        username = data;
     });
 
-    $("#btnSend").on("click", () => {
+    socket.on("message", (data) =>
+    {
+        console.log(username)
+        if (data.user === username) {
+            $("#messages").append($("<p class='txtMessageSent'>").text(data.message));
+        } else {
+            $("#messages").append($("<p class='txtMessageReceived'>").text(data.message));
+        }
+    });
+
+    $("#btnSend").on("click", () =>
+    {
         // Use #message to select the message input field
-        socket.send($("#inputMessage").val());
+        socket.emit("message_sent", $("#inputMessage").val());
         $("#inputMessage").val("");  // Clear the message input field after sending
     });
 });

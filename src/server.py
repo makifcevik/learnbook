@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = '72de10f502ec243d7ab803524a1f0385'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # MongoDB database setup
-app.config['MONGO_URI'] = "mongodb://localhost:27017/user" # Location of MongoDB database
+app.config['MONGO_URI'] = "mongodb://localhost:27017/user"  # Location of MongoDB database
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
 
@@ -58,6 +58,8 @@ def login():
             # if the information is valid redirect to the homepage
             login_user(usr)
             session["user"] = _user
+            print(get_user(session["user"]))
+            socketio.emit("login", get_username(session["user"]))
             return redirect(url_for("user"))
         else:
             # if the information is invalid redirect to the same page and display error
@@ -67,6 +69,8 @@ def login():
     else:  # For the case of a "GET" request
         # already logged in user
         if "user" in session:
+            print(get_user(session["user"]))
+            socketio.emit("login", get_username(session["user"]))
             return redirect(url_for("user"))
         else:
             return render_template("login.html", message=message)
@@ -185,13 +189,14 @@ def profile_page():
     return render_template('current_user_profile.html', current_user=current_user)
 
 
-@socketio.on("message")
-def handle_message(message):
+@socketio.on("message_sent")
+def handle_message_sent(message_sent):
     _user = get_user(session["user"])
     if _user is not None:
         _name = _user.name
-        message = f"{_name}: {message}"
-        socketio.emit("message", message)
+        message = f"{_name}: {message_sent}"
+        data = {'user': f'{_name}', 'message': message}
+        socketio.emit("message", data)
 
 
 @socketio.on('searchFunction')
