@@ -191,7 +191,7 @@ def handle_message(message):
     if _user is not None:
         _name = _user.name
         message = f"{_name}: {message}"
-        send(message, broadcast=True)
+        socketio.emit("message", message)
 
 
 @socketio.on('searchFunction')
@@ -220,6 +220,6 @@ if __name__ == "__main__":
     # If you want to use the chat put the same thing on chat.js file too. Unless you want
     # to use the chat it is not necessary
     # 105
-    socketio.run(app, allow_unsafe_werkzeug=True)
+    socketio.run(app, host="localhost", allow_unsafe_werkzeug=True, debug=True)
     # socketio.run(app, debug=True)
 

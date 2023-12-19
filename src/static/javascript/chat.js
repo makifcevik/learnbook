@@ -1,8 +1,8 @@
 $(document).ready(() => {
-    let socket = io.connect("http://192.168.1.105:5000");
+    let socket = io.connect("http://localhost:5000");
 
     socket.on("connect", () => {
-        socket.send("Connection successful: 200");
+        //socket.send("Connection successful: 200");
     });
 
     socket.on("message", (data) => {
