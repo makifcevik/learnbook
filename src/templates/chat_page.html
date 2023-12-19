@@ -165,16 +165,22 @@
             </div>
 
             <div class="col-sm-2 pane_height" style="background-color: #f0edcb;">
-
+                <!--
+                    <h1 id="h1-01"></h1>
+                -->
             </div>
         </div>
     </div>
 
     <script>
+        var x = $(".nav-01").outerHeight();
         var h = window.innerHeight;
-        
-        $(".pane_height").height(h - 85);
+        var y = window.outerHeight;
+        //navbar hight is 84.6 px
+        //document.getElementById("h1-01").innerHTML=x;
+        $(".pane_height").height(h-x);
     </script>
+
 </body>
 
 </html>
