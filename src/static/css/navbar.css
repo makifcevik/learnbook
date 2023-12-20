@@ -20,9 +20,14 @@
     height: 70px;
 }
 
-.a-02, #current {
+.a-02 {
     text-decoration: none;
     color: black;
+}
+
+.a-current {
+    text-decoration: none;
+    color: white;
 }
 
 .text-02 {
@@ -52,8 +57,7 @@
 }
 
 .a-02:hover,
-.a-03:hover,
-#current:hover {
+.a-03:hover :hover {
     color: white;
     transition: ease 0.2s;
 }

@@ -4,12 +4,12 @@ body {
 }
 
 .profile-pic {
-    height: 100px;
-    width: 100px;
+    height: 5.2vw;
+    width: 5.2vw;
     background-color: black;
     border-radius: 50%;
-    margin-top: 5.5%;
-    margin-left: 2%;
+    margin-top: 2.83vh;
+    margin-left: 0.52vw;
     opacity: 100%;
 }
 
@@ -22,21 +22,24 @@ body {
 .users_name{
     color: #8F3B1C;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 1.35vw;
     margin-bottom: 6px;
+    width: 12vw;
 }
 
 .users_occupation{
+    margin-top: -0.55vh;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 0.8vw;
+    width: 12vw;
 }
 
 .icon-03 {
     text-decoration: none;
     color: black;
     position: relative;
-    left: 73%;
-    top: 40%;
+    left: 21vw;
+    bottom: 7vh;
 }
 
 #icon-04 {
@@ -44,24 +47,85 @@ body {
 }
 
 .input-01 {
-    margin-left: 8%;
+    margin-left: 1.9vw;
     padding: 10px;
     padding-left: 50px;
     margin-right: 110px;
     font-size: 18px;
     border: none;
     border-radius: 20px;
-    background-color: #FFFFFF;
     outline: none;
     width: 19.25vw;
+    background: url("../images/search_FILL0_wght400_GRAD0_opsz24.png") no-repeat left;
+    background-position: 12px;
+    background-size: 30px;
+    background-color: #FFFFFF;
 }
-
+/*
 #icon-05 {
-    position: relative;
-    left: 10.3%;
-    bottom: 60.5%;
+    position: absolute;
+    left: 3vw;
+    top: 26.2vh;
     font-size: 30px;
 }
+old search icon css
+*/
+.chats-column {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    right: 0.65vw;
+    height: 60vh;
+    width: 24.85vw;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.chats-column::-webkit-scrollbar{
+    width: 7px;
+}
+
+.chats-column::-webkit-scrollbar-thumb{
+    background-color: #4ab4f6;
+    border-radius: 13px;
+}
+
+.private-chat {
+    width: 24.35vw;
+    height: 10.3vh;
+    background-color: c9c698;
+    border: 1px solid blue;
+    margin: 1px;
+}
+
+.private-chat-pic {
+    height: 4vw;
+    width: 4vw;
+    background-color: black;
+    border-radius: 50%;
+    margin-top: 0.7vh;
+    margin-left: 0.25vw;
+    opacity: 100%;
+}
+
+.private-chat-info {
+    margin-top: 1.5vh;
+    margin-left: 1vw;
+}
+
+.private-name {
+    color: #8F3B1C;
+    font-weight: 600;
+    font-size: 1.1vw;
+}
+
+.private-latest-msg {
+    margin-top: 0.4vh;
+    line-height: 1;
+    text-align: left;
+}
+
+/*akif chat backend starts here*/
 
 #inputMessage {
     outline: none;
