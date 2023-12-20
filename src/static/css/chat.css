@@ -223,11 +223,15 @@ body {
 .shared-text {
     float: left;
     margin-left: 1vw;
+    font-weight: 500;
 }
 
 .view-all-btn {
     float: right;
     margin-right: 1vw;
+    background: none;
+    border: none;
+    font-weight: 500;
 }
 
 .media-bar {
@@ -237,27 +241,29 @@ body {
     width: 15.5vw;
     border: solid black 1px;
     white-space: nowrap;
-    overflow: hidden;
+    position: relative;
+    overflow-y: hidden;
     overflow-x: scroll;
 }
 
+.media-img {
+    margin: 0.3vh 1px 0px 1px;
+    border: solid black 1px;
+    height: 10.3vh;
+    width: 5.1vw;
+    float: none;
+    display: inline-block;
+    zoom: 1;
+}
 
-/*.media-bar::-webkit-scrollbar{
-    width: 7px;
+.media-bar::-webkit-scrollbar{
+    height: 7px;
 }
 
 .media-bar::-webkit-scrollbar-thumb{
     background-color: gray;
     border-radius: 13px;
-}*/
-
-.media-img {
-    margin: auto 1px auto 1px;
-    border: solid black 1px;
-    height: 9vh;
-    width: 5.1vw;
 }
-
 
 /*akif's chat backend starts here*/
 
