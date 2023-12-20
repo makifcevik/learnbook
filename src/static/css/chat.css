@@ -43,7 +43,7 @@ body {
 }
 
 #icon-04 {
-    font-size: 30px;
+    font-size: 1.56vw;
 }
 
 .input-01 {
@@ -125,13 +125,37 @@ old search icon css
     text-align: left;
 }
 
-/*akif chat backend starts here*/
+.chat-box {
+    background-color: green;
+}
+
+.chat-controls {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin: auto;
+}
+
+.chat-btns {
+    background: none;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+#icon-06 {
+    font-size: 1.8vw;
+}
+
+/*akif's chat backend starts here*/
 
 #inputMessage {
     outline: none;
-    margin-bottom: 2.5vh;
-    height: 40px;
-    width: 43vw;
+    margin-bottom: 2vh;
+    height: 5vh;
+    width: 41vw;
+    position: relative;
+    top: 10px;
 }
 
 .chat-container {
@@ -141,7 +165,6 @@ old search icon css
 .txtMessageReceived {
     color: blue;
 }
-
 
 .txtMessageSent {
     color: red;

@@ -418,22 +418,32 @@
                             </div>
                         </div>
                     </button>
-
-                    
                 </div>
             </div>
 
-            <div class="col-sm-7 pane_height" style="background-color: #f9f2e4;">
-                <div id="messages">
+            <div class="col-sm-7 pane_height" style="/*background-color: #f9f2e4;*/ background-color: pink;">
+
+                <div class="container-fluid chat-box" id="messages">
                     
                 </div>
-                <div class="container-fluid fixed-bottom" style="text-align: center;">
+                <div class="chat-controls">
                     <input type="text" id="inputMessage" placeholder="Type a message">
-                    <button id="btnSend">Send</button>
+                    <button class="chat-btns">
+                        <span class="material-symbols-outlined" id="icon-06">attach_file</span>
+                    </button>
+                    <button class="chat-btns">
+                        <span class="material-symbols-outlined" id="icon-06">photo_camera</span>
+                    </button>
+                    <button class="chat-btns">
+                        <span class="material-symbols-outlined" id="icon-06">sentiment_satisfied</span>
+                    </button>
+                    <button class="chat-btns" style="background-color: aqua; border-radius: 50%; width: 2vw; height: 2vw; padding-left: 0.17vw;">
+                        <span class="material-symbols-outlined" id="icon-06">send</span>
+                    </button>
                 </div>
             </div>
 
-            <div class="col-sm-2 pane_height" style="background-color: #f0edcb;">
+            <div class="col-sm-2 pane_height" style="/*background-color: #f0edcb;*/ background-color: lightblue;">
                 <!--
                     <h1 id="h1-01"></h1>
                 -->
@@ -445,7 +455,7 @@
         var x = $(".nav-01").outerHeight();
         var h = window.innerHeight;
         $(".pane_height").height(h-x);
-
+        $(".chat-box").height(h-1.78*x);
     </script>
 
 </body>
