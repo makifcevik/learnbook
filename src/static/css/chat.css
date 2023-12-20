@@ -220,6 +220,10 @@ body {
     padding: 2px 1.5vw;
 }
 
+.view-profile-btn:hover {
+    background-color: #979577;
+}
+
 .shared-text {
     float: left;
     margin-left: 1vw;
