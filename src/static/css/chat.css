@@ -10,7 +10,6 @@ body {
     border-radius: 50%;
     margin-top: 2.83vh;
     margin-left: 0.52vw;
-    opacity: 100%;
 }
 
 .user_info {
@@ -86,16 +85,21 @@ old search icon css
 }
 
 .chats-column::-webkit-scrollbar-thumb{
-    background-color: #4ab4f6;
+    background-color: gray;
     border-radius: 13px;
 }
 
 .private-chat {
     width: 24.35vw;
     height: 10.3vh;
-    background-color: c9c698;
-    border: 1px solid blue;
+    background-color: #b9b691;
     margin: 1px;
+    margin-left: 2px;
+    border: none;
+}
+
+.private-chat:hover {
+    background-color: #979577;
 }
 
 .private-chat-pic {
@@ -105,7 +109,6 @@ old search icon css
     border-radius: 50%;
     margin-top: 0.7vh;
     margin-left: 0.25vw;
-    opacity: 100%;
 }
 
 .private-chat-info {
@@ -126,36 +129,68 @@ old search icon css
 }
 
 .chat-box {
-    background-color: green;
+    background-color: #f9f2e4;
 }
 
 .chat-controls {
     display: flex;
     align-items: center;
-    width: 90%;
-    margin: auto;
+    margin-left: 4vw;
+    margin-top: 1vh;
 }
 
 .chat-btns {
+    color: #4399FF;
     background: none;
     margin: 0px;
     padding: 0px;
     border: 0px;
+    position: relative;
+    right: 5.8vw;
+}
+
+.sendbtn {
+    color: white;
+    background-color: #4399FF;
+    border-radius: 50%;
+    width: 2.5vw;
+    height: 2.5vw;
+    padding-left: 0.17vw;
+    right: 5vw;
 }
 
 #icon-06 {
     font-size: 1.8vw;
 }
 
+.chat-image {
+    height: 7vw;
+    width: 7vw;
+    background-color: black;
+    border-radius: 50%;
+    margin: 5vh auto 0px;
+    opacity: 100%;
+}
+
+.view-profile-btn {
+    background-color: #AAAA68;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1vw;
+    font-weight: 400;
+    padding: 2px 1.5vw;
+}
+
 /*akif's chat backend starts here*/
 
 #inputMessage {
     outline: none;
-    margin-bottom: 2vh;
+    border: none;
     height: 5vh;
-    width: 41vw;
-    position: relative;
-    top: 10px;
+    width: 46vw;
+    border-radius: 30px;
+    padding-left: 30px;
+    padding-right: 120px;
 }
 
 .chat-container {
