@@ -32,10 +32,6 @@ def request_loader(req):
     return get_user(email)
 
 
-@app.route("/")
-def home():
-    return render_template("index.html")
-
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -76,7 +72,8 @@ def login():
             return render_template("login.html", message=message)
 
 
-@app.route("/user")
+@app.route("/")
+@login_required
 def user():
     """
     This function returns the user homepage IF they
@@ -84,7 +81,7 @@ def user():
     """
     if "user" in session:
         _user = session["user"]
-        return render_template("chat_page.html")
+        return render_template("home_page.html")
     # user does not exist
     else:
         return redirect(url_for("login"))
@@ -153,8 +150,8 @@ def user_profile_page():
     A login is required to access this page.
     """
     email = request.args.get('email')
-    usr = get_user(email)
-    return render_template('user_profile.html', user=usr)
+    user = get_user(email)
+    return render_template('user-profile-other.html', user=user)
 
 
 @app.route('/community/')
@@ -176,7 +173,7 @@ def chat():
     This function returns the chat page;
     A login is required to access this page
     """
-    return render_template('chat_page.html')
+    return render_template('chat_page.html', current_user=current_user)
 
 
 @app.route('/profile_page')
@@ -225,7 +222,5 @@ if __name__ == "__main__":
     # Put your own ipv4 address or put "localhost"
     # If you want to use the chat put the same thing on chat.js file too. Unless you want
     # to use the chat it is not necessary
-    # 105
     socketio.run(app, host="localhost", allow_unsafe_werkzeug=True, debug=True)
-    # socketio.run(app, debug=True)
 
