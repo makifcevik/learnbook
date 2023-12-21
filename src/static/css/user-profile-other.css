@@ -1,7 +1,7 @@
-
 * {
   box-sizing: border-box;
 }
+
 body,html {
   background: #F9F2E4;
   font-size: 14px;
@@ -29,7 +29,6 @@ body,html {
   margin-right:100px;
   margin-bottom: 100px;
 }
-
 
 .user-image{
   background: #5a5959;
@@ -204,81 +203,4 @@ left:120px;
   position:relative;
   border-radius: 20px;
   margin-right:50px;
-}
-
-
-
-
-
-.nav-01 {
-  background-color: #AAAA68;
-}
-
-.nav-01 a.active {
-  background-color: #04AA6D;
-  color: white;
-}
-
-.a-01 {
-  text-decoration: none;
-  color: #0C0557;
-  font-weight: 900;
-  font-size: 46px;
-  margin-left: 50px;
-}
-
-.nav-02 {
-  margin-right: 12.5%;
-  height: 70px;
-}
-
-.a-02, #current {
-  text-decoration: none;
-  color: black;
-}
-
-.text-02 {
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.items-02 {
-  margin-top: 3px;
-  padding-right: 55px;
-}
-
-.text-on-icon>.button-inner {
-  flex-direction: column;
-}
-
-#navbar-icons {
-  font-size: 35px;
-}
-
-.text-on-icon>.button-inner {
-  flex-direction: column;
-}
-
-#navbar-icons {
-  font-size: 35px;
-}
-
-.a-03 {
-  text-decoration: none;
-  color: black;
-  font-size: 22px;
-  font-weight: 600;
-  margin-right: 40px;
-}
-
-.a-02:hover,
-.a-03:hover,
-#current:hover {
-    color: white;
-    transition: ease 0.2s;
-}
-
-.a-02:active,
-.a-03:active {
-    color: black;
 }
