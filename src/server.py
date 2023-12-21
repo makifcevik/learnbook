@@ -193,6 +193,7 @@ def profile_page():
 def handle_message_sent(message_sent):
     _user = get_user(session["user"])
     if _user is not None:
+        socketio.emit("login", get_username(session["user"]))
         _name = _user.name
         message = f"{_name}: {message_sent}"
         data = {'user': f'{_name}', 'message': message}

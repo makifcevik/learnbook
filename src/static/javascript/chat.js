@@ -2,6 +2,21 @@ $(document).ready(() => {
     let socket = io.connect("http://localhost:5000");
     let username = "";
 
+    function insertMessage(data, received = false)
+    {
+        let messageBlock = `<div class="row message">
+                            <div><p class="message-sent"></p></div>
+                            </div>`
+        let message = $(messageBlock);
+        message.find(".message-sent").text(data.message);
+        // if the message is not sent but received
+        if (received)
+        {
+            message.find(".message-sent").removeClass("message-sent").addClass("message-recived");
+        }
+        $("#messages").append(message);
+    }
+
     socket.on("connect", () =>
     {
         //socket.send("Connection successful: 200");
@@ -17,9 +32,9 @@ $(document).ready(() => {
     {
         console.log(username)
         if (data.user === username) {
-            $("#messages").append($("<p class='txtMessageSent'>").text(data.message));
+            insertMessage(data);
         } else {
-            $("#messages").append($("<p class='txtMessageReceived'>").text(data.message));
+            insertMessage(data, true);
         }
     });
 
