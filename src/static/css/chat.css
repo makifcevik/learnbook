@@ -60,15 +60,7 @@ body {
     background-size: 30px;
     background-color: #FFFFFF;
 }
-/*
-#icon-05 {
-    position: absolute;
-    left: 3vw;
-    top: 26.2vh;
-    font-size: 30px;
-}
-old search icon css
-*/
+
 .chats-column {
     padding: 0;
     margin: 0;
@@ -107,7 +99,7 @@ old search icon css
     width: 4vw;
     background-color: black;
     border-radius: 50%;
-    margin-top: 0.7vh;
+    margin: 0.7vh;
     margin-left: 0.25vw;
 }
 
@@ -130,6 +122,53 @@ old search icon css
 
 .chat-box {
     background-color: #f9f2e4;
+    overflow: hidden;
+    overflow-y: scroll;
+    flex-direction: column-reverse;
+}
+
+.chat-box::-webkit-scrollbar{
+    width: 7px;
+}
+
+.chat-box::-webkit-scrollbar-thumb{
+    background-color: gray;
+    border-radius: 13px;
+}
+
+.chat-box-header {
+    border: solid black 0px;
+    background-color: #f8efdbd3;
+}
+
+.chat-box-image {
+    height: 3.5vw;
+    width: 3.5vw;
+    background-color: black;
+    border-radius: 50%;
+    margin: 0.8vh 0px 0px 3vw;
+}
+
+.chat-header-name {
+    align-self: center;
+    margin-left: 1vw;
+    font-size: 1.2vw;
+    color: #8F3B1C;
+    font-weight: 500;
+}
+
+.message {
+    align-items: center;
+}
+
+.message-recived {
+    float: left;
+    color: red;
+}
+
+.message-sent {
+    float: right;
+    color: blue;
 }
 
 .chat-controls {
@@ -149,7 +188,7 @@ old search icon css
     right: 5.8vw;
 }
 
-.sendbtn {
+.btn-send {
     color: white;
     background-color: #4399FF;
     border-radius: 50%;
@@ -181,6 +220,55 @@ old search icon css
     padding: 2px 1.5vw;
 }
 
+.view-profile-btn:hover {
+    background-color: #979577;
+}
+
+.shared-text {
+    float: left;
+    margin-left: 1vw;
+    font-weight: 500;
+}
+
+.view-all-btn {
+    float: right;
+    margin-right: 1vw;
+    background: none;
+    border: none;
+    font-weight: 500;
+}
+
+.media-bar {
+    margin: 1px;
+    padding-left: 1px;
+    height: 12vh;
+    width: 15.5vw;
+    border: solid black 1px;
+    white-space: nowrap;
+    position: relative;
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+
+.media-img {
+    margin: 0.3vh 1px 0px 1px;
+    border: solid black 1px;
+    height: 10.3vh;
+    width: 5.1vw;
+    float: none;
+    display: inline-block;
+    zoom: 1;
+}
+
+.media-bar::-webkit-scrollbar{
+    height: 7px;
+}
+
+.media-bar::-webkit-scrollbar-thumb{
+    background-color: gray;
+    border-radius: 13px;
+}
+
 /*akif's chat backend starts here*/
 
 #inputMessage {
@@ -191,6 +279,10 @@ old search icon css
     border-radius: 30px;
     padding-left: 30px;
     padding-right: 120px;
+}
+
+#btn-send {
+
 }
 
 .chat-container {
