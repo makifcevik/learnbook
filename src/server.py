@@ -183,7 +183,7 @@ def profile_page():
     This function returns the current user's profile page;
     A login is required to access this page
     """
-    return render_template('current_user_profile.html', current_user=current_user)
+    return render_template('user-profile-user.html', current_user=current_user)
 
 
 @socketio.on("message_sent")
