@@ -3,7 +3,7 @@
     "$oid": "65771c271c91b876edd8b672"
   },
   "name": "Chess Club",
-  "admin": "chessclub@hotmail.com",
+  "admin": "chessclub@bilgiedu.net",
   "followers": 0,
   "description": "ITS THE CHESS CLUB WOW",
   "link": "http://127.0.0.1:5000/community/chessclub"
@@ -13,7 +13,7 @@
     "$oid": "65771cda1c91b876edd8b673"
   },
   "name": "Literature Club",
-  "admin": "literatureclub@hotmail.com",
+  "admin": "literatureclub@bilgiedu.net",
   "followers": 0,
   "description": "ITS THE LITERATURE CLUB WOW"
 },
@@ -22,7 +22,7 @@
     "$oid": "65771db6573440ff5ad1b49e"
   },
   "name": "Robotics Club",
-  "email": "roboticsclub@hotmail.com",
+  "email": "roboticsclub@bilgiedu.net",
   "followers": 0,
   "description": "ITS THE ROBOTICS CLUB WOW"
 },
@@ -31,7 +31,7 @@
     "$oid": "65772c3b573440ff5ad1b49f"
   },
   "name": "Chess Club",
-  "admin": "chessclub@hotmail.com",
+  "admin": "chessclub@bilgiedu.net",
   "followers": 0,
   "description": "ITS THE CHESS CLUB WOW",
   "link": "http://127.0.0.1:5000/community/chessclub"
