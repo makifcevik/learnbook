@@ -1,4 +1,3 @@
-/*All previous is for the NavBar*/ 
 body {
     overflow: hidden;
 }
@@ -18,7 +17,7 @@ body {
     margin-top: 8.5%;
 }
 
-.users_name{
+.users_name {
     color: #8F3B1C;
     font-weight: 600;
     font-size: 1.35vw;
@@ -26,7 +25,7 @@ body {
     width: 12vw;
 }
 
-.users_occupation{
+.users_occupation {
     margin-top: -0.55vh;
     font-weight: 600;
     font-size: 0.8vw;
@@ -61,6 +60,42 @@ body {
     background-color: #FFFFFF;
 }
 
+.btn-group {
+    width: 22vw;
+    border: 0px;
+    background-color: #BABABA;
+    border-radius: 10px;
+    align-self: center;
+}
+
+.btn {
+    text-align: center;
+    font-family: ABBvoice;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.btn-default-toggle-ghost,
+.btn-default-toggle-ghost:focus {
+    border: 0px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.btn-group [type="radio"] {
+    display: none;
+}
+
+[type="radio"]:checked+.btn-default-toggle-ghost {
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+
+.btn-default-toggle-ghost+[type="radio"]+.btn-default-toggle-ghost{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
 .chats-column {
     padding: 0;
     margin: 0;
@@ -72,11 +107,11 @@ body {
     overflow-y: scroll;
 }
 
-.chats-column::-webkit-scrollbar{
+.chats-column::-webkit-scrollbar {
     width: 7px;
 }
 
-.chats-column::-webkit-scrollbar-thumb{
+.chats-column::-webkit-scrollbar-thumb {
     background-color: gray;
     border-radius: 13px;
 }
@@ -127,11 +162,11 @@ body {
     flex-direction: column-reverse;
 }
 
-.chat-box::-webkit-scrollbar{
+.chat-box::-webkit-scrollbar {
     width: 7px;
 }
 
-.chat-box::-webkit-scrollbar-thumb{
+.chat-box::-webkit-scrollbar-thumb {
     background-color: gray;
     border-radius: 13px;
 }
@@ -260,11 +295,11 @@ body {
     zoom: 1;
 }
 
-.media-bar::-webkit-scrollbar{
+.media-bar::-webkit-scrollbar {
     height: 7px;
 }
 
-.media-bar::-webkit-scrollbar-thumb{
+.media-bar::-webkit-scrollbar-thumb {
     background-color: gray;
     border-radius: 13px;
 }
@@ -281,9 +316,7 @@ body {
     padding-right: 120px;
 }
 
-#btn-send {
-
-}
+#btn-send {}
 
 .chat-container {
     text-align: center;
