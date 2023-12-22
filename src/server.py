@@ -3,6 +3,7 @@ from flask_pymongo import PyMongo
 from pymongo.errors import DuplicateKeyError
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from flask_socketio import SocketIO, send
+import re
 from user import *
 
 # Flask app setup
@@ -106,10 +107,12 @@ def sign_up():
     It asks for name, email, password, and department.
 
     After submitting it will check if the email already exist in database,
+    also check if the user is using the correct email extension ('bilgiedu.net')
     If it does exist then redirect them to the same page with an error message
     otherwise save information to database and redirect them to homepage
     """
 
+    pattern = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@bilgiedu.net')
     message = ''
     if request.method == "POST":
         _name = request.form["name"]
@@ -117,16 +120,18 @@ def sign_up():
         _password = request.form["password"]
         _department = request.form["department"]
 
+        if re.fullmatch(pattern, _email):
         # checking if the user already exists
-        try:
-            new_user = User(_name, _email, _password, _department)
-            save_user(new_user)
-            login_user(new_user)
-            session["user"] = _email
-            return redirect(url_for("user"))
-        except DuplicateKeyError:
-            message = 'User already exist, please try another email'
-        # if it already exists redirect to the same page (temporary, later there'll be an alert message)
+            try:
+                new_user = User(_name, _email, _password, _department)
+                save_user(new_user)
+                login_user(new_user)
+                session["user"] = _email
+                return redirect(url_for("user"))
+            except DuplicateKeyError:
+                message = 'User already exist, please try another email'    
+        else:
+            message = 'Please ensure you use an email with a "@bilgiedu.net" extension'
     
     return render_template("sign-up.html", message=message)
 
