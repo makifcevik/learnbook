@@ -11,11 +11,13 @@ a hash of the password before storing to database
 
 class User(UserMixin):  # UserMixin gives us default implementations of is_authenticated() and is_active() functions
 
-    def __init__(self, name, email, password, department):
+    def __init__(self, name, email, password, department, user_follower_count=0, followed_id=[]):
         self.name = name
         self.email = email
         self.password = password
         self.department = department
+        self.user_follower_count = user_follower_count
+        self.followed_id = followed_id
 
     # # The following has to be written for LoginManager() to work
     def get_id(self):
@@ -50,7 +52,9 @@ def save_user(user):
         "_id": user.email,
         "name": user.name,
         "password": password_hash,
-        "department": user.department
+        "department": user.department,
+        "user_follower_count": user.user_follower_count,
+        "followed_id": user.followed_id
     }) 
 
 
@@ -61,7 +65,7 @@ def get_user(email):
     """
     user = db.user_collection.find_one({'_id': email})  # This will return None if no data is returned
     if user is not None:
-        return User(user['name'], user['_id'], user['password'], user['department'])
+        return User(user['name'], user['_id'], user['password'], user['department'], user['user_follower_count'], user['followed_id'])
     else:
         return None
 

@@ -99,11 +99,11 @@
 
             <div class="upper-div">
                 <div class="user-image"></div>
-                <p class="user-name">Name: {{ current_user.name }}</p>
-                <p class="user-department">Department: {{ current_user.department }}</p>
-                <p class="follower-count">--Follower Count--</p>
+                <p class="user-name">Name: {{ user.name }}</p>
+                <p class="user-department">Department: {{ user.department }}</p>
+                <p class="follower-count">Followers: {{ user.user_follower_count }}</p>
                 <p class="community-count">--Followed Community Count--</p>
-                <p class="user-email"> E-mail: {{ current_user.email }}</p>
+                <p class="user-email"> E-mail: {{ user.email }}</p>
                 <p class="user-phone-number">Phone Number: </p>
                 <p class="user-joined">Joined:</p>
                 <p class="user-bio">About:</p>

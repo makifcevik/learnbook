@@ -151,7 +151,14 @@ def user_profile_page():
     """
     email = request.args.get('email')
     usr = get_user(email)
-    return render_template('user-profile-other.html', user=usr)
+
+    # Check if the current user already followed the other user
+    if db.user_collection.find_one({'followed_id': email}, {'followed_id': 1}):
+        is_followed = 'Unfollow'
+    else:
+        is_followed = 'Follow'
+
+    return render_template('user-profile-other.html', user=usr, is_followed=is_followed)
 
 
 @app.route('/community/')
@@ -183,7 +190,9 @@ def profile_page():
     This function returns the current user's profile page;
     A login is required to access this page
     """
-    return render_template('user-profile-user.html', current_user=current_user)
+
+    user = get_user(current_user.email)
+    return render_template('user-profile-user.html', user=user)
 
 
 @socketio.on("message_sent")
@@ -214,6 +223,31 @@ def search_function(search_query):
     results_people = list(db.user_collection.find({"name": {'$regex': '^'+search_query, '$options': 'i'}}))
 
     socketio.emit('printSearchResult', [results_people, results_community])
+
+@socketio.on('follow_user')
+def follow_user(followed_id):
+    """
+    This function is called after the current user requests to follow another user.
+    This is done by pushing the user's (to be followed) email to the current user's list
+    of 'followed' in database and then increment the followed count of the current user by 1
+    """
+
+    db.user_collection.update_one({"_id": current_user.email},
+                                  { "$push": {"followed_id": followed_id},
+                                     "$inc": {"user_follower_count": 1}  })
+    socketio.emit('adjustFollowedPage')
+
+@socketio.on('unfollow_user')
+def unfollow_user(followed_id):
+    """
+    This function is called after the current user requests to unfollow another user.
+    This is done by pulling (removing) the user's (to be unfollowed) email from the current user's list
+    of 'followed' in database and then decrementing the followed count of the current user by 1
+    """
+    db.user_collection.update_one({"_id": current_user.email},
+                                  { "$pull": {"followed_id": followed_id},
+                                    "$inc": {"user_follower_count": -1}  })
+    socketio.emit('adjustUnfollowedPage')
 
 
 # Start app
