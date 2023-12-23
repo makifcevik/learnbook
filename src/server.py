@@ -216,7 +216,6 @@ def search_function(search_query):
     located at 'search.html'.
 
     Note: Community Id is not returned because it caused some errors, '_id':False for now
-    TODO: Make the search so it doesnt return the current user as the result
     """
     results_community = list(db.community_collection.find({"name": {'$regex': '^'+search_query, '$options': 'i'}},       
                                                           {'_id': False}))
