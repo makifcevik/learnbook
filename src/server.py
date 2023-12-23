@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 from flask_pymongo import PyMongo
 from pymongo.errors import DuplicateKeyError
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO
 import re
 from user import *
 
@@ -33,7 +33,6 @@ def request_loader(req):
     return get_user(email)
 
 
-
 @app.route("/login", methods=["POST", "GET"])
 def login():
     """
@@ -55,8 +54,6 @@ def login():
             # if the information is valid redirect to the homepage
             login_user(usr)
             session["user"] = _user
-            print(get_user(session["user"]))
-            socketio.emit("login", get_username(session["user"]))
             return redirect(url_for("user"))
         else:
             # if the information is invalid redirect to the same page and display error
@@ -66,8 +63,6 @@ def login():
     else:  # For the case of a "GET" request
         # already logged in user
         if "user" in session:
-            print(get_user(session["user"]))
-            socketio.emit("login", get_username(session["user"]))
             return redirect(url_for("user"))
         else:
             return render_template("login.html", message=message)
@@ -103,10 +98,10 @@ def logout():
 @app.route("/sign-up", methods=["POST", "GET"])
 def sign_up():
     """
-    This function returns the sign up page,
+    This function returns the sign-up page,
     It asks for name, email, password, and department.
 
-    After submitting it will check if the email already exist in database,
+    After submitting, it will check if the email already exist in database,
     also check if the user is using the correct email extension ('bilgiedu.net')
     If it does exist then redirect them to the same page with an error message
     otherwise save information to database and redirect them to homepage
@@ -120,8 +115,8 @@ def sign_up():
         _password = request.form["password"]
         _department = request.form["department"]
 
-        if re.fullmatch(pattern, _email):
         # checking if the user already exists
+        if re.fullmatch(pattern, _email):
             try:
                 new_user = User(_name, _email, _password, _department)
                 save_user(new_user)
@@ -155,8 +150,8 @@ def user_profile_page():
     A login is required to access this page.
     """
     email = request.args.get('email')
-    user = get_user(email)
-    return render_template('user-profile-other.html', user=user)
+    usr = get_user(email)
+    return render_template('user-profile-other.html', user=usr)
 
 
 @app.route('/community/')
@@ -167,7 +162,7 @@ def community_profile_page():
     A login is required to access this page.
     """
     name = request.args.get('name')
-    community = db.community_collection.find_one({'name':name})
+    community = db.community_collection.find_one({'name': name})
     return render_template('community-profile.html', community=community)
 
 
@@ -195,9 +190,8 @@ def profile_page():
 def handle_message_sent(message_sent):
     _user = get_user(session["user"])
     if _user is not None:
-        socketio.emit("login", get_username(session["user"]))
         _name = _user.name
-        message = f"{_name}: {message_sent}"
+        message = message_sent
         data = {'user': f'{_name}', 'message': message}
         socketio.emit("message", data)
 
@@ -215,8 +209,9 @@ def search_function(search_query):
     Note: Community Id is not returned because it caused some errors, '_id':False for now
     TODO: Make the search so it doesnt return the current user as the result
     """
-    results_community = list(db.community_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}, {'_id':False}))
-    results_people = list(db.user_collection.find({"name":{'$regex': '^'+search_query, '$options':'i'}}))
+    results_community = list(db.community_collection.find({"name": {'$regex': '^'+search_query, '$options': 'i'}},
+                                                          {'_id': False}))
+    results_people = list(db.user_collection.find({"name": {'$regex': '^'+search_query, '$options': 'i'}}))
 
     socketio.emit('printSearchResult', [results_people, results_community])
 
@@ -228,4 +223,3 @@ if __name__ == "__main__":
     # If you want to use the chat put the same thing on chat.js file too. Unless you want
     # to use the chat it is not necessary
     socketio.run(app, host="localhost", allow_unsafe_werkzeug=True, debug=True)
-

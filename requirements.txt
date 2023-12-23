@@ -4,3 +4,4 @@ flask
 flask-pymongo
 flask-login
 flask-socketio
+pymongo

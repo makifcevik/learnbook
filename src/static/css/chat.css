@@ -196,14 +196,9 @@ body {
     align-items: center;
 }
 
-.message-recived {
+.message-sent {
     float: left;
     color: red;
-}
-
-.message-sent {
-    float: right;
-    color: blue;
 }
 
 .chat-controls {
