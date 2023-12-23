@@ -218,9 +218,11 @@ def search_function(search_query):
     Note: Community Id is not returned because it caused some errors, '_id':False for now
     TODO: Make the search so it doesnt return the current user as the result
     """
-    results_community = list(db.community_collection.find({"name": {'$regex': '^'+search_query, '$options': 'i'}},
+    results_community = list(db.community_collection.find({"name": {'$regex': '^'+search_query, '$options': 'i'}},       
                                                           {'_id': False}))
-    results_people = list(db.user_collection.find({"name": {'$regex': '^'+search_query, '$options': 'i'}}))
+    
+    results_people = list(db.user_collection.find({'$and': [{"name": {'$regex': '^'+search_query, '$options': 'i'}}, 
+                                                                    {'_id': {'$ne': current_user.email}}]  }))
 
     socketio.emit('printSearchResult', [results_people, results_community])
 
