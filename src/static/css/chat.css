@@ -198,7 +198,11 @@ body {
 
 .message-sent {
     float: left;
-    color: red;
+    color: blue;
+}
+
+.message-title {
+    
 }
 
 .chat-controls {

@@ -3,10 +3,13 @@ $(document).ready(() => {
 
     function insertMessage(data)
     {
-        let messageBlock = `<div class="row message">
-                            <div><p class="message-sent"></p></div>
-                            </div>`
+        let messageBlock = `
+        <div class="row message">
+            <h6 class="message-title"></h6>
+            <div><p class="message-sent"></p></div>
+        </div>`;
         let message = $(messageBlock);
+        message.find(".message-title").text(data.user);
         message.find(".message-sent").text(data.message);
         $("#messages").append(message);
     }
