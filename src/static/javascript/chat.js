@@ -32,7 +32,7 @@ $(document).ready(() => {
     function leaveChat(targetUsername)
     {
         // Emit an event to the server to leave the chat
-        //TO-DO CLEAN CHAT AFTER LEAVING
+        //TODO CLEAN CHAT AFTER LEAVING
         $('#messages').innerHTML = '';
         socket.emit('leave_chat', {target_username: targetUsername });
     }
