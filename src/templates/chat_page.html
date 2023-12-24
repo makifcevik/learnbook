@@ -153,13 +153,13 @@
 
                 <div class="col chats-column">
                     
-                    <button class="row private-chat">
+                    <button class="row private-chat" id="start-chat">
                         <div class="private-chat-pic">
                             <img src="" alt="">
                         </div>
                         <div class="col private-chat-info">
-                            <div class="row private-name">
-                                Diana Johnson
+                            <div class="row private-name" id="start-chat__name">
+                                test
                                 <!-- Name goes here -->
                             </div>
                             <div class="row private-latest-msg">
@@ -168,83 +168,17 @@
                             </div>
                         </div>
                     </button>
-
-                    <button class="row private-chat">
+                    <button class="row private-chat" id="start-chat2">
                         <div class="private-chat-pic">
                             <img src="" alt="">
                         </div>
                         <div class="col private-chat-info">
-                            <div class="row private-name">
-                                Lisa Roy
+                            <div class="row private-name" id="start-chat__name2">
+                                admin3
                                 <!-- Name goes here -->
                             </div>
                             <div class="row private-latest-msg">
-                                Hi, are you available tomorrow?
-                                <!-- Latest message here -->
-                            </div>
-                        </div>
-                    </button>
-
-                    <button class="row private-chat">
-                        <div class="private-chat-pic">
-                            <img src="" alt="">
-                        </div>
-                        <div class="col private-chat-info">
-                            <div class="row private-name">
-                                Jamie Taylor
-                                <!-- Name goes here -->
-                            </div>
-                            <div class="row private-latest-msg">
-                                Nice one.
-                                Will do it tomorrow.
-                                <!-- Latest message here -->
-                            </div>
-                        </div>
-                    </button>
-
-                    <button class="row private-chat">
-                        <div class="private-chat-pic">
-                            <img src="" alt="">
-                        </div>
-                        <div class="col private-chat-info">
-                            <div class="row private-name">
-                                Jason Roy
-                                <!-- Name goes here -->
-                            </div>
-                            <div class="row private-latest-msg">
-                                That's great. I am looking forward to having a great start.
-                                <!-- Latest message here -->
-                            </div>
-                        </div>
-                    </button>
-
-                    <button class="row private-chat">
-                        <div class="private-chat-pic">
-                            <img src="" alt="">
-                        </div>
-                        <div class="col private-chat-info">
-                            <div class="row private-name">
-                                Ana Williams
-                                <!-- Name goes here -->
-                            </div>
-                            <div class="row private-latest-msg">
-                                ??
-                                <!-- Latest message here -->
-                            </div>
-                        </div>
-                    </button>
-
-                    <button class="row private-chat">
-                        <div class="private-chat-pic">
-                            <img src="" alt="">
-                        </div>
-                        <div class="col private-chat-info">
-                            <div class="row private-name">
-                                John Smith
-                                <!-- Name goes here -->
-                            </div>
-                            <div class="row private-latest-msg">
-                                I am.
+                                Ok
                                 <!-- Latest message here -->
                             </div>
                         </div>
@@ -405,6 +339,7 @@
     </div>
 
     <script>
+        var current_username = "{{ current_username }}";
         var x = $(".nav-01").outerHeight();
         var y = $(".chat-box-header").outerHeight();
         var h = window.innerHeight;

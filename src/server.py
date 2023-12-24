@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 from flask_pymongo import PyMongo
 from pymongo.errors import DuplicateKeyError
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, join_room, leave_room
 import re
 from user import *
 
@@ -59,7 +59,7 @@ def login():
             # if the information is invalid redirect to the same page and display error
             message = 'Failed to login'
             return render_template('login.html', message=message)
-        
+
     else:  # For the case of a "GET" request
         # already logged in user
         if "user" in session:
@@ -124,10 +124,10 @@ def sign_up():
                 session["user"] = _email
                 return redirect(url_for("user"))
             except DuplicateKeyError:
-                message = 'User already exist, please try another email'    
+                message = 'User already exist, please try another email'
         else:
             message = 'Please ensure you use an email with a "@bilgiedu.net" extension'
-    
+
     return render_template("sign-up.html", message=message)
 
 
@@ -195,14 +195,65 @@ def profile_page():
     return render_template('user-profile-user.html', user=user)
 
 
-@socketio.on("message_sent")
-def handle_message_sent(message_sent):
-    _user = get_user(session["user"])
-    if _user is not None:
-        _name = _user.name
-        message = message_sent
-        data = {'user': f'{_name}', 'message': message}
-        socketio.emit("message", data)
+@socketio.on('start_chat')
+def handle_start_chat(data):
+    current_username = get_username(session["user"])
+    target_username = data['target_username']
+
+    # Create a sorted list of usernames to ensure consistency in the chat room name
+    user_list = sorted([current_username, target_username])
+
+    # Create a unique chat room identifier based on the sorted list of usernames
+    room = f'chat_{user_list[0]}_{user_list[1]}'
+
+    # Join the chat room
+    join_room(room)
+
+    # Emit a welcome message to both users in the chat
+    socketio.emit('chat_message', {'message': f'Welcome to the chat, {current_username} and {target_username}!'},
+                  room=room)
+
+
+@socketio.on('send_message')
+def handle_send_message(data):
+    current_username = get_username(session["user"])
+    target_username = data['target_username']
+    message = data['message']
+
+    # Create a sorted list of usernames to ensure consistency in the chat room name
+    user_list = sorted([current_username, target_username])
+
+    # Create a unique chat room identifier based on the sorted list of usernames
+    room = f'chat_{user_list[0]}_{user_list[1]}'
+
+    # Broadcast the message to everyone in the chat room
+    socketio.emit('chat_message', {'message': f'{current_username}: {message}'}, room=room)
+
+
+@socketio.on('leave_chat')
+def handle_leave_chat(data):
+    current_username = get_username(session["user"])
+    target_username = data['target_username']
+
+    # Create a sorted list of usernames to ensure consistency in the chat room name
+    user_list = sorted([current_username, target_username])
+
+    # Create a unique chat room identifier based on the sorted list of usernames
+    room = f'chat_{user_list[0]}_{user_list[1]}'
+
+    # Leave the chat room
+    leave_room(room)
+    print(f'{current_username} left the chat with {target_username}')
+
+
+# @socketio.on("message_sent")
+# def handle_message_sent(message_sent):
+#     _user = get_user(session["user"])
+#     if _user is not None:
+#         _name = _user.name
+#         message = message_sent
+#         data = {'user': f'{_name}', 'message': message}
+#         socketio.emit("message", data)
 
 
 @socketio.on('searchFunction')
@@ -217,13 +268,14 @@ def search_function(search_query):
 
     Note: Community Id is not returned because it caused some errors, '_id':False for now
     """
-    results_community = list(db.community_collection.find({"name": {'$regex': '^'+search_query, '$options': 'i'}},       
+    results_community = list(db.community_collection.find({"name": {'$regex': '^' + search_query, '$options': 'i'}},
                                                           {'_id': False}))
-    
-    results_people = list(db.user_collection.find({'$and': [{"name": {'$regex': '^'+search_query, '$options': 'i'}}, 
-                                                                    {'_id': {'$ne': current_user.email}}]  }))
+
+    results_people = list(db.user_collection.find({'$and': [{"name": {'$regex': '^' + search_query, '$options': 'i'}},
+                                                            {'_id': {'$ne': current_user.email}}]}))
 
     socketio.emit('printSearchResult', [results_people, results_community])
+
 
 @socketio.on('follow_user')
 def follow_user(followed_id):
@@ -234,9 +286,10 @@ def follow_user(followed_id):
     """
 
     db.user_collection.update_one({"_id": current_user.email},
-                                  { "$push": {"followed_id": followed_id},
-                                     "$inc": {"user_follower_count": 1}  })
+                                  {"$push": {"followed_id": followed_id},
+                                   "$inc": {"user_follower_count": 1}})
     socketio.emit('adjustFollowedPage')
+
 
 @socketio.on('unfollow_user')
 def unfollow_user(followed_id):
@@ -246,8 +299,8 @@ def unfollow_user(followed_id):
     of 'followed' in database and then decrementing the followed count of the current user by 1
     """
     db.user_collection.update_one({"_id": current_user.email},
-                                  { "$pull": {"followed_id": followed_id},
-                                    "$inc": {"user_follower_count": -1}  })
+                                  {"$pull": {"followed_id": followed_id},
+                                   "$inc": {"user_follower_count": -1}})
     socketio.emit('adjustUnfollowedPage')
 
 
