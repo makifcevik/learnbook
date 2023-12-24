@@ -207,7 +207,6 @@ body {
 
 .chat-controls {
     display: flex;
-    align-items: center;
     margin-left: 4vw;
     margin-top: 1vh;
 }
@@ -234,6 +233,7 @@ body {
 
 #icon-06 {
     font-size: 1.8vw;
+    margin-top: 0.6vh;
 }
 
 .chat-image {
