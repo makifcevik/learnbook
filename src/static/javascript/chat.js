@@ -32,6 +32,8 @@ $(document).ready(() => {
     function leaveChat(targetUsername)
     {
         // Emit an event to the server to leave the chat
+        //TO-DO CLEAN CHAT AFTER LEAVING
+        $('#messages').innerHTML = '';
         socket.emit('leave_chat', {target_username: targetUsername });
     }
 
@@ -66,8 +68,10 @@ $(document).ready(() => {
     // Send a message when a button is clicked
     $("#btnSend").on("click", () =>
     {
-        socket.emit("message_sent", );
-        sendMessage(target, $("#inputMessage").val());
+        if ($("#inputMessage").val() != "")
+        {
+            sendMessage(target, $("#inputMessage").val());
+        }
     });
 
     // Leave the chat when a button is clicked
