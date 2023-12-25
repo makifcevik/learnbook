@@ -193,16 +193,23 @@ body {
 }
 
 .message {
+/*    display: inline-block;*/
     align-items: center;
+    background-color: lightblue;
+    margin: 10px;
+    max-width: 80%;
+    padding: 10px 30px 0 30px;
+    border-radius: 20px;
 }
 
 .message-sent {
     float: left;
-    color: blue;
+    color: black;
 }
 
 .message-title {
-    
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .chat-controls {

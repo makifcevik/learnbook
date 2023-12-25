@@ -2,6 +2,7 @@ $(document).ready(() => {
     let socket = io.connect("http://localhost:5000");
     let target;  // target username to start a chat
     let currentUsername;
+    $('#inputMessage').prop('disabled', true);
 
     function insertMessage(data)
     {
@@ -11,7 +12,7 @@ $(document).ready(() => {
             <div><p class="message-sent"></p></div>
         </div>`;
         let message = $(messageBlock);
-        message.find(".message-title").text(data.user);
+        message.find(".message-title").text(data.username);
         message.find(".message-sent").text(data.message);
         $("#messages").append(message);
     }
@@ -19,6 +20,7 @@ $(document).ready(() => {
     function startChat(targetUsername)
     {
         // Emit an event to the server to start a chat with the selected username
+        $('#inputMessage').prop('disabled', false);
         socket.emit('start_chat', {target_username: targetUsername });
     }
 
@@ -26,14 +28,14 @@ $(document).ready(() => {
     {
         // Emit an event to the server to send a message in the chat
         socket.emit('send_message', {target_username: targetUsername, message });
-        $("#inputMessage").val("");  // Clear the message input field after sending
+        $('#inputMessage').val('');  // Clear the message input field after sending
     }
 
     function leaveChat(targetUsername)
     {
+        $("#messages").html("");
+        $('#inputMessage').prop('disabled', true);
         // Emit an event to the server to leave the chat
-        //TODO CLEAN CHAT AFTER LEAVING
-        $('#messages').innerHTML = '';
         socket.emit('leave_chat', {target_username: targetUsername });
     }
 

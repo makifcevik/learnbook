@@ -210,8 +210,8 @@ def handle_start_chat(data):
     join_room(room)
 
     # Emit a welcome message to both users in the chat
-    socketio.emit('chat_message', {'message': f'Welcome to the chat, {current_username} and {target_username}!'},
-                  room=room)
+    # socketio.emit('chat_message', {'message': f'Welcome to the chat, {current_username} and {target_username}!'},
+    #               room=room)
 
 
 @socketio.on('send_message')
@@ -227,7 +227,7 @@ def handle_send_message(data):
     room = f'chat_{user_list[0]}_{user_list[1]}'
 
     # Broadcast the message to everyone in the chat room
-    socketio.emit('chat_message', {'message': f'{current_username}: {message}'}, room=room)
+    socketio.emit('chat_message', {'username': current_username, 'message': message}, room=room)
 
 
 @socketio.on('leave_chat')
@@ -243,7 +243,7 @@ def handle_leave_chat(data):
 
     # Leave the chat room
     leave_room(room)
-    print(f'{current_username} left the chat with {target_username}')
+    # print(f'{current_username} left the chat with {target_username}')
 
 
 # @socketio.on("message_sent")
