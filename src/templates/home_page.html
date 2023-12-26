@@ -286,8 +286,8 @@
                         <div class="user-pic">
                             <img src="" alt="">
                         </div>
-                        <div class="user-name">Jimmy Neutron</div>
-                        <div class="occupation">Computer Engineering</div>
+                        <div class="user-name">{{ current_user.name }}</div>
+                        <div class="occupation">{{ current_user.department }}</div>
                         
                         
                         <div>
@@ -295,14 +295,14 @@
                                 <span class="material-symbols-outlined icon-01">
                                     person
                                 </span>
-                                5 Friends
+                              Following: {{ current_user.user_follower_count }}
                             </button>
 
                             <button class="user-card-btn">
                                 <span class="material-symbols-outlined icon-01">
                                     groups
                                 </span>
-                                3 Communites
+                                Communities: {{ current_user.user_community_count }}
                             </button>
                         </div>
                     </div>

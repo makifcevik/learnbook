@@ -11,13 +11,15 @@ a hash of the password before storing to database
 
 class User(UserMixin):  # UserMixin gives us default implementations of is_authenticated() and is_active() functions
 
-    def __init__(self, name, email, password, department, user_follower_count=0, followed_id=[]):
+    def __init__(self, name, email, password, department, user_follower_count=0, followed_id=[], followed_community=[], user_community_count=0):
         self.name = name
         self.email = email
         self.password = password
         self.department = department
         self.user_follower_count = user_follower_count
         self.followed_id = followed_id
+        self.followed_community = followed_community
+        self.user_community_count = user_community_count
 
     # # The following has to be written for LoginManager() to work
     def get_id(self):
@@ -54,7 +56,9 @@ def save_user(user):
         "password": password_hash,
         "department": user.department,
         "user_follower_count": user.user_follower_count,
-        "followed_id": user.followed_id
+        "followed_id": user.followed_id,
+        "followed_community": user.followed_community,
+        "user_community_count": user.user_community_count
     }) 
 
 
@@ -65,7 +69,8 @@ def get_user(email):
     """
     user = db.user_collection.find_one({'_id': email})  # This will return None if no data is returned
     if user is not None:
-        return User(user['name'], user['_id'], user['password'], user['department'], user['user_follower_count'], user['followed_id'])
+        return User(user['name'], user['_id'], user['password'], user['department'], user['user_follower_count'], user['followed_id']
+                    , user['followed_community'], user['user_community_count'])
     else:
         return None
 

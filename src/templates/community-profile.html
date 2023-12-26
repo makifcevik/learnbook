@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js" integrity="sha512-zoJXRvW2gC8Z0Xo3lBbao5+AS3g6YWr5ztKqaicua11xHo+AvE1b0lT9ODgrHTmNUxeCw0Ry4BGRYZfXu70weg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>{{ community.name }}</title>
 </head>
 
@@ -97,9 +98,9 @@
 
     <div class="profile-background">
         <div class="community-image"> --Image-- </div>
-        <button class="join-button"> Join </button>
+        <button id="join-button" class="join-button">{{ is_joined }}</button>
         <p class="community-name">{{ community.name }}</p>
-        <p class="follower-count">{{ community.followers }}</p>
+        <p class="follower-count">Followers: {{ community.followers }}</p>
         <p class="admin-email">Admin's Email: {{ community.admin }}</p>
         <p class="about-text">About: {{ community.description }}</p>
     </div>
@@ -117,6 +118,50 @@
     </div>   
 </div>
 
+<script>
+
+    const socket = io.connect('http://localhost:5000');
+
+    socket.on('connect', () => {
+        socket.send('Connection Successfull');
+    })
+
+    const joinButton = document.getElementById('join-button');
+
+    /**
+     * If the join button says "Join" then this means that the current user is not 
+     * following the club however if it says "Unfollow" then the current user
+     * is currently following the club
+     * 
+     * So according to this we can send  either 'Join' or 'Unfollow' requests to the server
+     * */
+    joinButton.addEventListener('click', () => {
+        if (joinButton.innerText == 'Join') {
+            socket.emit('joinClub', '{{ community.name }}');
+        }
+        else if (joinButton.innerText == 'Unfollow') {
+            socket.emit('unfollowClub', '{{ community.name }}');
+        }
+    })
+
+    /**
+     * Change text to "Unfollow"
+     * 
+     * This occurs after the current user joins a club 
+     * */
+    socket.on('adjustJoinedPage', () => {
+        joinButton.innerText = "Unfollow";
+    })
+
+     /**
+     * Change text to "Join"
+     * 
+     * This occurs after the current user unfollows a club
+     * */
+    socket.on('adjustUnfollowedPage', () => {
+        joinButton.innerText = "Join";
+    })
+</script>
 
 </body>
 </html>

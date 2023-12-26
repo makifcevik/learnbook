@@ -101,7 +101,7 @@
             <p class="user-name"> {{ user.name }}</p>
             <p class="user-department"> {{ user.department }}</p>
             <p class="follower-count">Followers: {{ user.user_follower_count }}</p>
-            <p class="user-communities">--Followed Communities--</p>
+            <p class="user-communities">Communities: {{ user.user_community_count }}</p>
             <button id="follow-button" class="follow-button">{{ is_followed }}</button>
             <button class="message-button"> Message </button>
         </div>

@@ -46,6 +46,7 @@ def login():
     message = ''  # Error message
     if request.method == "POST":
         _user = request.form["email"]
+        _user = _user.lower()
         _password = request.form["password"]
 
         usr = get_user(_user)
@@ -77,7 +78,7 @@ def user():
     """
     if "user" in session:
         _user = session["user"]
-        return render_template("home_page.html")
+        return render_template("home_page.html", current_user=current_user)
     # user does not exist
     else:
         return redirect(url_for("login"))
@@ -114,7 +115,8 @@ def sign_up():
         _email = request.form["email"]
         _password = request.form["password"]
         _department = request.form["department"]
-
+        
+        _email = _email.lower()
         # checking if the user already exists
         if re.fullmatch(pattern, _email):
             try:
@@ -170,7 +172,14 @@ def community_profile_page():
     """
     name = request.args.get('name')
     community = db.community_collection.find_one({'name': name})
-    return render_template('community-profile.html', community=community)
+
+    # Check if the current user already followed this community
+    if db.user_collection.find_one({'followed_community': name}, {'followed_community':1}):
+        is_joined = 'Unfollow'
+    else:
+        is_joined = 'Join'
+
+    return render_template('community-profile.html', community=community, is_joined=is_joined)
 
 
 @app.route('/chat')
@@ -302,6 +311,37 @@ def unfollow_user(followed_id):
                                   {"$pull": {"followed_id": followed_id},
                                    "$inc": {"user_follower_count": -1}})
     socketio.emit('adjustUnfollowedPage')
+
+@socketio.on('joinClub')
+def joinClub(club_name):
+    """
+    This function is called after the current user requests to join a club.
+    This is done by pushing (adding) the club's name to the current user's list of joined clubs
+    in database and then incrementing the followed community counter by 1
+    """
+
+    db.user_collection.update_one({"_id": current_user.email},
+                                  {"$push": {"followed_community": club_name},
+                                   "$inc": {"user_community_count": 1}})
+    
+    db.community_collection.update_one({"name": club_name}, {"$inc": {"followers": 1}})
+    socketio.emit('adjustJoinedPage')
+
+@socketio.on('unfollowClub')
+def unfollowClub(club_name):
+    """
+    This function is called after the current user requests to unfollow a club.
+    This is done by pulling (removing) the club's name from the current user's list of joined clubs
+    in database and then decrementing the followed community counter by 1
+    """
+    db.user_collection.update_one({"_id": current_user.email},
+                                  {"$pull": {"followed_community": club_name},
+                                   "$inc": {"user_community_count": -1}})
+    
+    db.community_collection.update_one({"name": club_name}, {"$inc": {"followers": -1}})
+    socketio.emit('adjustUnfollowedPage')
+
+    
 
 
 # Start app
