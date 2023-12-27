@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "658c2835e670c303a8d8bbbf"
+  },
+  "author": "test2@bilgiedu.net",
+  "author-name": "Eda Aydemir",
+  "text-content": "Hello Guys!",
+  "image-content": null,
+  "date": "\"2023-12-27T16:35:49.626864\""
+},
+{
+  "_id": {
+    "$oid": "658c2caf6ea17c010e8fe8ce"
+  },
+  "author": "test@bilgiedu.net",
+  "author-name": "Hassan Fakih",
+  "text-content": "I am currently looking for students interested to start a project in Machine Learning! DM me if you are interested",
+  "image-content": null,
+  "date": "2023-12-27T16:54:55.040304"
+},
+{
+  "_id": {
+    "$oid": "658c2d006ea17c010e8fe8cf"
+  },
+  "author": "test5@bilgiedu.net",
+  "author-name": "Mehmet Akif",
+  "text-content": "Flask or NodeJS? which one is preferable and why?",
+  "image-content": null,
+  "date": "2023-12-27T16:56:16.345420"
+},
+{
+  "_id": {
+    "$oid": "658c334b9a78766afa541bf6"
+  },
+  "author": "test2@bilgiedu.net",
+  "author-name": "Eda Aydemir",
+  "text-content": "Hello Guys! My name is pewwwwwwwwwwwwdiepie",
+  "image-content": null,
+  "date": "2023-12-27T17:23:07.091253"
+},
+{
+  "_id": {
+    "$oid": "658c363af2fa1462da402dc1"
+  },
+  "author": "test2@bilgiedu.net",
+  "author-name": "Eda Aydemir",
+  "text-content": "Django or Flask which is better?",
+  "image-content": null,
+  "date": "2023-12-27T17:35:38.466381"
+},
+{
+  "_id": {
+    "$oid": "658c36c1f2fa1462da402dc2"
+  },
+  "author": "test2@bilgiedu.net",
+  "author-name": "Eda Aydemir",
+  "text-content": "Will it be empty?",
+  "image-content": null,
+  "date": "2023-12-27T17:37:53.120575"
+},
+{
+  "_id": {
+    "$oid": "658c3f70412712603902aa2e"
+  },
+  "author": "test2@bilgiedu.net",
+  "author-name": "Eda Aydemir",
+  "text-content": "Anyone familiar with Data Science?",
+  "image-content": null,
+  "date": "2023-12-27T18:14:56.477913"
+}]
