@@ -130,25 +130,28 @@
                 </div>
             </div>
 
-            <div class="col-sm-6 middle-pane">
+            <div id="content-section" class="col-sm-6 middle-pane">
                 <!-- Make new publication div -->
-                <div class="row create-post-div"> 
-                    <div class="row">
-                        <div class="create-post-profile-pic">
-                            <img src="" alt="">
+                <div class="row create-post-div">
+                        <div class="row">
+                            <div class="create-post-profile-pic">
+                                <img src="" alt="">
+                            </div>
+                            <input id="text-input" name="text-content" class="input-02" type="text" placeholder="New publication">
                         </div>
-                        <input class="input-02" type="text" placeholder="New publication">
-                    </div>
+                    
+                        <div class="row" style="margin-top: 2.5vh;">
+                            <div class="col" style="text-align: center;">
+                                <button class="post-btns"><img class="post-icons" src="../static/images/photo_icon.png" alt="">Photo</button>
+                                <button class="post-btns"><img class="post-icons" src="../static/images/video_icon.png" alt="">Video</button>
+                                <button class="post-btns"><img class="post-icons" src="../static/images/calender_icon.png" alt="">Event</button>
+                                <button class="post-btns"><img class="post-icons" src="../static/images/article_icon.png" alt="">Article</button>
+                            </div>
+                        </div>
 
-                    <div class="row" style="margin-top: 2.5vh;">
-                        <div class="col" style="text-align: center;">
-                            <button class="post-btns"><img class="post-icons" src="../static/images/photo_icon.png" alt="">Photo</button>
-                            <button class="post-btns"><img class="post-icons" src="../static/images/video_icon.png" alt="">Video</button>
-                            <button class="post-btns"><img class="post-icons" src="../static/images/calender_icon.png" alt="">Event</button>
-                            <button class="post-btns"><img class="post-icons" src="../static/images/article_icon.png" alt="">Article</button>
-                        </div>
-                    </div>
-                </div>
+                        <!--Post button-->
+                        <button type="submit" id="post-button">Post</button> 
+                 </div>
 
                 <!-- Post template -->
                 <div class="row post-div">
@@ -165,117 +168,52 @@
                             </button>
                         </div>
                     </div>
+    
+                        <div class="col post-content">
+                            <p>
+                                Hello Everyone! We will hold a Chess Tournament on december 26th!!!
+                                For more details follow the link below :D
+                            </p>
+                            <img class="post-img" src="../static/images/ChessSet.png" alt="" >
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLAGB884/viewform?pli=1">https://docs.google.com/forms/d/e/1FAIpQLAGB884/viewform?pli=1</a>
+                        </div> <!--End of post content-->
 
-                    <div class="col post-content">
-                        <p>
-                            Hello Everyone! We will hold a Chess Tournament on december 26th!!!
-                            For more details follow the link below :D
-                        </p>
-                        <img class="post-img" src="../static/images/ChessSet.png" alt="" >
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLAGB884/viewform?pli=1">https://docs.google.com/forms/d/e/1FAIpQLAGB884/viewform?pli=1</a>
-                    </div>
-
-                    <div class="col post-footer">
-                        <div class="row" style="height: 2vh;">
+                        <div class="col post-footer">
+                            <div class="row" style="height: 2vh;">
                             
-                        </div>
-
-                        <div class="row justify-content-center">
-
-                            <button class="post-footer-btn">
-                                <div class="row">
-                                    <span class="material-symbols-outlined">
-                                        thumb_up
-                                    </span>
-                                </div>
-                                    Like
-
-                            <button class="post-footer-btn">
-                                <div class="row">
-                                    <span class="material-symbols-outlined">
-                                        comment
-                                    </span>
-                                </div>
-                                    Comment
-                            </button>
-
-                            <button class="post-footer-btn">
-                                <div class="row">
-                                    <span class="material-symbols-outlined">
-                                        share
-                                    </span>
-                                </div>
-                                    Share
-                            </button>
-                            
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- You can delete the following, it is only for demonstration-->
-                <div class="row post-div">
-                    <div class="row user-post-info">
-                        <div class="col">
-                            <div class="post-profile-pic">
-                                <img src="" alt="">
                             </div>
-                            <label class="post-user-name">Jimmy Neutron</label>
-                            <button class="edit-post-btn">
-                                <span class="material-symbols-outlined">
-                                    more_horiz
-                                </span>
-                            </button>
-                        </div>
-                    </div>
 
-                    <div class="col post-content">
-                        <p>
-                            Hello Everyone! We will hold a Chess Tournament on december 26th!!!
-                            For more details follow the link below :D
-                        </p>
-                        <img class="post-img" src="../static/images/ChessSet.png" alt="" >
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLAGB884/viewform?pli=1">https://docs.google.com/forms/d/e/1FAIpQLAGB884/viewform?pli=1</a>
-                    </div>
+                            <div class="row justify-content-center">
 
-                    <div class="col post-footer">
-                        <div class="row" style="height: 2vh;">
-                            
-                        </div>
-
-                        <div class="row justify-content-center">
-
-                            <button class="post-footer-btn">
-                                <div class="row">
-                                    <span class="material-symbols-outlined">
+                                <button class="post-footer-btn">
+                                    <div class="row">
+                                        <span class="material-symbols-outlined">
                                         thumb_up
-                                    </span>
-                                </div>
+                                        </span>
+                                    </div>
                                     Like
 
-                            <button class="post-footer-btn">
+                                <button class="post-footer-btn">
                                 <div class="row">
                                     <span class="material-symbols-outlined">
                                         comment
                                     </span>
                                 </div>
                                     Comment
-                            </button>
+                                </button>
 
-                            <button class="post-footer-btn">
-                                <div class="row">
-                                    <span class="material-symbols-outlined">
-                                        share
-                                    </span>
-                                </div>
-                                    Share
-                            </button>
-                            
-                        </div>
-
-                    </div>
+                                <button class="post-footer-btn">
+                                    <div class="row">
+                                        <span class="material-symbols-outlined">
+                                            share
+                                        </span>
+                                    </div>
+                                        Share
+                                </button>
+                            </div>
+                        </div> <!--End of Post footer-->
                 </div>
-                <!-- You can delete the previous, it is only for demonstration-->
+
             </div>
 
             <div class="col-sm-3"  style="padding: 0px;">
@@ -286,7 +224,7 @@
                         <div class="user-pic">
                             <img src="" alt="">
                         </div>
-                        <div class="user-name">{{ current_user.name }}</div>
+                        <div class="user-name"><a href="{{ url_for('profile_page') }}">{{ current_user.name }}</a></div>
                         <div class="occupation">{{ current_user.department }}</div>
                         
                         
@@ -337,6 +275,113 @@
         var h = window.innerHeight;
         document.getElementById('div-00').style.marginTop= x +'px';
         $(".pane_height").height(h-x);
+    </script>
+
+    <script>
+    $(document).ready( () => {
+        let socket = io.connect("http://localhost:5000");
+        const postButton = document.getElementById('post-button');
+        const textInput = document.getElementById('text-input');
+
+        /**
+         * When the current user connects to the website, the server
+         * will provide them content from people/community they follow
+         * */
+        socket.on('connect', () => {
+            socket.emit('getFeed');
+        })
+
+        /**
+         * When user attempts to upload their post
+         * */
+        postButton.addEventListener('click', () => {
+            const textInputCheck = textInput.value.trim();
+
+            if (textInputCheck) { // Check if input is not empty
+                alert('Post Uploaded!');
+                socket.emit('postFeed',{
+                    'text-content': textInput.value
+                });
+
+                textInput.value = ''; // Empty the text input after submitting the post
+            }
+        })
+
+        /**
+         * After the server provided the current user with the content
+         * of people/community they follow then it is time to place them
+         * nicely on the feed page
+         * 
+         * the downside here is that it will load everything into one page
+         * which can be very much RAM consuming
+         * */
+        socket.on('adjustPostPage', (data) => {
+            
+            for(var i=0; i<data.length; i++){
+
+            var newPost = document.createElement('div');
+            newPost.setAttribute('class', 'row post-div');
+
+            newPost.innerHTML = `<div class="row user-post-info">
+                        <div class="col">
+                            <div class="post-profile-pic">
+                                <img src="" alt="">
+                            </div>
+                            <label class="post-user-name">${data[i]['author-name']}</label>
+                            <button class="edit-post-btn">
+                                <span class="material-symbols-outlined">
+                                    more_horiz
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+    
+                        <div class="col post-content">
+                            <p>
+                                ${data[i]['text-content']}
+                            </p>
+                            <img class="post-img" alt="">
+                        </div> <!--End of post content-->
+
+                        <div class="col post-footer">
+                            <div class="row" style="height: 2vh;">
+                            
+                            </div>
+
+                            <div class="row justify-content-center">
+
+                                <button class="post-footer-btn">
+                                    <div class="row">
+                                        <span class="material-symbols-outlined">
+                                        thumb_up
+                                        </span>
+                                    </div>
+                                    Like
+
+                                <button class="post-footer-btn">
+                                <div class="row">
+                                    <span class="material-symbols-outlined">
+                                        comment
+                                    </span>
+                                </div>
+                                    Comment
+                                </button>
+
+                                <button class="post-footer-btn">
+                                    <div class="row">
+                                        <span class="material-symbols-outlined">
+                                            share
+                                        </span>
+                                    </div>
+                                        Share
+                                </button>
+                            </div>
+                        </div> <!--End of Post footer-->`;
+
+            document.getElementById('content-section').appendChild(newPost);
+                    }
+        });
+    })
     </script>
 </body>
 
