@@ -54,15 +54,20 @@ $(document).ready(() => {
         leaveChat(target);
     });
 
-    // PREDEFINED:
     // Event listener for receiving chat messages
     socket.on('chat_message', (data) =>
     {
-        console.log(data.message);
+        // console.log(data.message);
         // Handle the received message, e.g., display it in the UI
         insertMessage(data)
     });
 
+//    socket.on('load_message', (data) =>
+//    {
+//        insertMessage(data)
+//    });
+
+    // PREDEFINED:
     // Start a chat when a button is clicked
     $("#start-chat").on("click", () =>
     {
