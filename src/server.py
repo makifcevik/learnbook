@@ -5,8 +5,9 @@ from flask_login import LoginManager, login_user, logout_user, current_user, log
 from flask_socketio import SocketIO, join_room, leave_room
 import re
 from user import *
+from datetime import datetime
+from operator import itemgetter
 # from pymongo import DESCENDING
-# from datetime import datetime
 
 # Flask app setup
 app = Flask(__name__)
@@ -207,6 +208,49 @@ def profile_page():
     return render_template('user-profile-user.html', user=user)
 
 
+@socketio.on('postFeed')
+def postFeed(data):
+    """
+    This function is called after the user attempts to upload a post
+    to the homepage.
+    It would store the post in database and then send a message to the client so the post
+    could appear on their screens.
+    """
+
+    db.post_collection.insert_one({
+        "author": current_user.email,
+        "author-name": current_user.name,
+        "text-content": data['text-content'],
+        "image-content": None,
+        "date": datetime.now().isoformat() # without ISO it seems to causes errors
+            })
+    
+    socketio.emit('adjustPostPage', [{
+        'author-name': current_user.name,
+        'text-content': data['text-content']
+    }])
+
+
+@socketio.on('getFeed')
+def getFeed():
+    """
+    This function is called whenever user opens the homepage.
+
+    It would return to the current user content of people/community
+    they follow
+    """
+    followed_list = current_user.followed_id
+    followed_list.append(current_user.email)
+    posts = []
+
+    for i in followed_list:
+      posts += list(db.post_collection.find({'author': i},{'_id': False}).limit(5))
+
+      sorted_posts = sorted(posts, key=itemgetter('date'), reverse=True)
+    
+    socketio.emit('adjustPostPage', sorted_posts)
+
+
 @socketio.on('start_chat')
 def handle_start_chat(data):
     current_username = get_username(session["user"])
@@ -336,6 +380,7 @@ def unfollow_user(followed_id):
                                    "$inc": {"user_follower_count": -1}})
     socketio.emit('adjustUnfollowedPage')
 
+
 @socketio.on('joinClub')
 def joinClub(club_name):
     """
@@ -350,6 +395,7 @@ def joinClub(club_name):
     
     db.community_collection.update_one({"name": club_name}, {"$inc": {"followers": 1}})
     socketio.emit('adjustJoinedPage')
+
 
 @socketio.on('unfollowClub')
 def unfollowClub(club_name):
@@ -366,8 +412,6 @@ def unfollowClub(club_name):
     socketio.emit('adjustUnfollowedPage')
 
     
-
-
 # Start app
 if __name__ == "__main__":
     # app.run(debug=True)
