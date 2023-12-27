@@ -39,6 +39,22 @@ $(document).ready(() => {
         socket.emit('leave_chat', {target_username: targetUsername });
     }
 
+    // Send a message when a button is clicked
+    $("#btnSend").on("click", () =>
+    {
+        if ($("#inputMessage").val() != "")
+        {
+            sendMessage(target, $("#inputMessage").val());
+        }
+    });
+
+    // Leave the chat when a button is clicked
+    $("#leaveChatBtn").on("click", () =>
+    {
+        leaveChat(target);
+    });
+
+    // PREDEFINED:
     // Event listener for receiving chat messages
     socket.on('chat_message', (data) =>
     {
@@ -66,20 +82,68 @@ $(document).ready(() => {
         target = $("#start-chat__name2").text().trim()
         startChat(target);
     });
-
-    // Send a message when a button is clicked
-    $("#btnSend").on("click", () =>
+    $("#start-chat3").on("click", () =>
     {
-        if ($("#inputMessage").val() != "")
+        if (target)
         {
-            sendMessage(target, $("#inputMessage").val());
+            leaveChat(target)
         }
+        target = $("#start-chat__name3").text().trim()
+        startChat(target);
     });
-
-    // Leave the chat when a button is clicked
-    $("#leaveChatBtn").on("click", () =>
+    $("#start-chat4").on("click", () =>
     {
-        leaveChat(target);
+        if (target)
+        {
+            leaveChat(target)
+        }
+        target = $("#start-chat__name4").text().trim()
+        startChat(target);
+    });
+    $("#start-chat5").on("click", () =>
+    {
+        if (target)
+        {
+            leaveChat(target)
+        }
+        target = $("#start-chat__name5").text().trim()
+        startChat(target);
+    });
+    $("#start-chat6").on("click", () =>
+    {
+        if (target)
+        {
+            leaveChat(target)
+        }
+        target = $("#start-chat__name6").text().trim()
+        startChat(target);
+    });
+    $("#start-chat7").on("click", () =>
+    {
+        if (target)
+        {
+            leaveChat(target)
+        }
+        target = $("#start-chat__name7").text().trim()
+        startChat(target);
+    });
+    $("#start-chat8").on("click", () =>
+    {
+        if (target)
+        {
+            leaveChat(target)
+        }
+        target = $("#start-chat__name8").text().trim()
+        startChat(target);
+    });
+    $("#start-chat9").on("click", () =>
+    {
+        if (target)
+        {
+            leaveChat(target)
+        }
+        target = $("#start-chat__name9").text().trim()
+        startChat(target);
     });
 
 //    socket.on("connect", () =>
