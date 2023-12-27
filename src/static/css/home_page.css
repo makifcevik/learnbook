@@ -116,6 +116,17 @@
     outline: none;
 }
 
+/* Post Button added here */
+#post-button{
+    position: relative;
+    width: 80px;
+    height: 50px;
+    left: 250px;
+    top: 5px;
+    border-radius: 1.3vw;
+    border: 1px solid;
+}
+
 .post-btns {
     border: 0px;
     background-color: white;
