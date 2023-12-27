@@ -158,9 +158,8 @@ def user_profile_page():
     email = request.args.get('email')
     usr = get_user(email)
 
-    # Check if the current user already followed the other user
-    if db.user_collection.find_one({'followed_id': email}, {'followed_id': 1}):
-        is_followed = 'Unfollow'
+    if email in current_user.followed_id:
+        is_followed='Unfollow'
     else:
         is_followed = 'Follow'
 
@@ -178,7 +177,7 @@ def community_profile_page():
     community = db.community_collection.find_one({'name': name})
 
     # Check if the current user already followed this community
-    if db.user_collection.find_one({'followed_community': name}, {'followed_community':1}):
+    if name in current_user.followed_community:
         is_joined = 'Unfollow'
     else:
         is_joined = 'Join'
