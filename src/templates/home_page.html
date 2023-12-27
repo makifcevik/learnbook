@@ -114,13 +114,16 @@
 
                     <!-- List of communities -->
                     <div class="col communities-column">
-
+                        {% for community in current_user.followed_community %}
                         <button class="community">
                             <div class="community-pic">
                                 <img src="" alt="">
                             </div>
-                            <label class="community-name">Chess Club</label>
+                            <label class="community-name">
+                                <a href="{{ url_for('community_profile_page', name=community) }}">{{ community }}</a>
+                            </label>
                         </button>
+                        {% endfor %}
 
                         <button class="community">
                             <div class="community-pic">
