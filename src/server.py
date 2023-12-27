@@ -5,6 +5,8 @@ from flask_login import LoginManager, login_user, logout_user, current_user, log
 from flask_socketio import SocketIO, join_room, leave_room
 import re
 from user import *
+# from pymongo import DESCENDING
+# from datetime import datetime
 
 # Flask app setup
 app = Flask(__name__)
@@ -15,6 +17,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 app.config['MONGO_URI'] = "mongodb://localhost:27017/user"  # Location of MongoDB database
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
+chat_messages_collection = db['chat_messages']
 
 # Flask LoginManager setup
 login_manager = LoginManager()
@@ -218,6 +221,18 @@ def handle_start_chat(data):
     # Join the chat room
     join_room(room)
 
+    # Retrieve the most recent 30 messages from MongoDB
+    messages = chat_messages_collection.find(
+        {
+            'chat_room': user_list
+        }
+    )  # .sort('timestamp', DESCENDING).limit(30)
+
+    # Send the most recent messages to the joining user
+    for message in reversed(list(messages)):
+        socketio.emit('chat_message', {'username': message['chat_room'][0], 'message': message['content']},
+                      room=room)
+
     # Emit a welcome message to both users in the chat
     # socketio.emit('chat_message', {'message': f'Welcome to the chat, {current_username} and {target_username}!'},
     #               room=room)
@@ -234,6 +249,15 @@ def handle_send_message(data):
 
     # Create a unique chat room identifier based on the sorted list of usernames
     room = f'chat_{user_list[0]}_{user_list[1]}'
+
+    # Save the message to MongoDB
+    # timestamp = datetime.utcnow()
+    message_data = {
+        'chat_room': user_list,
+        'content': message,
+        # 'timestamp': timestamp
+    }
+    chat_messages_collection.insert_one(message_data)
 
     # Broadcast the message to everyone in the chat room
     socketio.emit('chat_message', {'username': current_username, 'message': message}, room=room)
