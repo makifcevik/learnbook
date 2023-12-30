@@ -322,16 +322,6 @@ def handle_leave_chat(data):
     # print(f'{current_username} left the chat with {target_username}')
 
 
-# @socketio.on("message_sent")
-# def handle_message_sent(message_sent):
-#     _user = get_user(session["user"])
-#     if _user is not None:
-#         _name = _user.name
-#         message = message_sent
-#         data = {'user': f'{_name}', 'message': message}
-#         socketio.emit("message", data)
-
-
 @socketio.on('searchFunction')
 def search_function(search_query):
     """

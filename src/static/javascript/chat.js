@@ -151,20 +151,4 @@ $(document).ready(() => {
         startChat(target);
     });
 
-//    socket.on("connect", () =>
-//    {
-//        console.log("connected");
-//    });
-//
-//    socket.on("message", (data) =>
-//    {
-//        insertMessage(data)
-//    });
-//
-//    $("#btnSend").on("click", () =>
-//    {
-//        // Use #message to select the message input field
-//        socket.emit("message_sent", $("#inputMessage").val());
-//        $("#inputMessage").val("");  // Clear the message input field after sending
-//    });
 });
